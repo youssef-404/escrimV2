@@ -17,15 +17,17 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<Pane prefHeight="538.0" prefWidth="709.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.TableViewController">
+<Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.TableViewController">
 	<children>
 		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventories">
 			<font>
 				<Font name="Google Sans Regular" size="14.0" />
 			</font>
 		</Text>
-		<Separator layoutY="58.0" prefHeight="0.0" prefWidth="710.0" />
-		<ChoiceBox fx:id="typeInventory" layoutX="480.0" layoutY="18.0" prefHeight="25.0" prefWidth="210.0" styleClass="inventory-button" stylesheets="@../resources/css/application.css" />
+
+		<Separator layoutY="58.0" prefHeight="3.0" prefWidth="761.0" />
+		<ChoiceBox fx:id="typeInventory" layoutX="529.0" layoutY="18.0" prefHeight="25.0" prefWidth="210.0" styleClass="inventory-button" stylesheets="@../resources/css/application.css" />
+
 		<HBox layoutX="24.0" layoutY="75.0" prefHeight="3.0" prefWidth="200.0" spacing="12.0" styleClass="search-bar" stylesheets="@../resources/css/application.css">
 			<children>
 				<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="10.0" translateY="7.0">
@@ -40,7 +42,7 @@
 				</TextField>
 			</children>
 		</HBox>
-		<Button layoutX="577.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Download">
+		<Button layoutX="626.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Download">
 			<graphic>
 				<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="-4.0">
 					<image>
@@ -49,7 +51,7 @@
 				</ImageView>
 			</graphic>
 		</Button>
-		<Button layoutX="453.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add">
+		<Button layoutX="502.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add">
 			<graphic>
 				<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="-4.0">
 					<image>
@@ -58,17 +60,19 @@
 				</ImageView>
 			</graphic>
 		</Button>
-		<TableView fx:id="tableView" layoutX="17.0" layoutY="136.0" prefHeight="371.0" prefWidth="677.0" stylesheets="@../resources/css/application.css">
+
+		<TableView fx:id="tableView" layoutX="17.0" layoutY="136.0" prefHeight="385.0" prefWidth="733.0" stylesheets="@../resources/css/application.css">
 			<columns>
-				<TableColumn fx:id="id" prefWidth="64.0" text="Parcel Id" />
-				<TableColumn fx:id="assignment" prefWidth="75.2000732421875" text="Assignment" />
-				<TableColumn fx:id="module" prefWidth="75.2000732421875" text="Model" />
-				<TableColumn fx:id="nominal" prefWidth="75.2000732421875" text="Nominal" />
-				<TableColumn fx:id="type" prefWidth="73.5999755859375" text="Nature" />
-				<TableColumn fx:id="sector" prefWidth="91.199951171875" text="Sector" />
-				<TableColumn fx:id="dimension" prefWidth="73.60003662109375" text="Dimension" />
-				<TableColumn fx:id="volume" prefWidth="71.199951171875" text="Volume" />
-				<TableColumn fx:id="weight" prefWidth="75.199951171875" text="Weight" />
+				<TableColumn fx:id="id" prefWidth="57.60000991821289" resizable="false" text="Parcel Id" />
+				<TableColumn fx:id="assignment" prefWidth="91.99996948242188" resizable="false" text="Assignment" />
+				<TableColumn fx:id="module" prefWidth="74.4000244140625" resizable="false" text="Model" />
+				<TableColumn fx:id="nominal" prefWidth="87.19999694824219" resizable="false" text="Nominal" />
+				<TableColumn fx:id="type" prefWidth="81.5999755859375" resizable="false" text="Nature" />
+				<TableColumn fx:id="sector" prefWidth="88.0" resizable="false" text="Sector" />
+				<TableColumn fx:id="dimension" resizable="false" text="Dimension" />
+				<TableColumn fx:id="volume" resizable="false" text="Volume" />
+				<TableColumn fx:id="weight" prefWidth="70.4000244140625" resizable="false" text="Weight" />
+
 			</columns>
 		</TableView>
 		<AnchorPane fx:id="popup" prefHeight="538.0" prefWidth="709.0" visible="false">
