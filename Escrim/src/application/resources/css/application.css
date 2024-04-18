@@ -1,0 +1,86 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+	-fx-font-family: "Google Sans";
+}
+
+.menu-button {
+	-fx-background-radius: 10px;
+	-fx-background-color: transparent;
+	-fx-text-fill: white;
+	-fx-font-size: 16px;
+
+}
+
+.menu-button:hover {
+	-fx-background-color: #26266E;
+}
+
+
+.inventory-button {
+	-fx-background-color: transparent;
+	-fx-border-radius: 10px;
+	-fx-border-color: #C8CCD5;
+	-fx-text-fill: black;
+}
+
+.search-bar {
+	-fx-border-radius: 10px;
+	-fx-border-color: #C8CCD5;
+}
+
+.download-button {
+	-fx-background-radius: 10px;
+	-fx-background-color: #35CDC5;
+	-fx-text-fill: white;
+	-fx-font-size: 14px;
+}
+
+
+.table-view {
+	-fx-background-color: white;
+	-fx-table-cell-border-color: transparent;
+	-fx-table-header-border-color: #d3d3d3;
+}
+
+.table-view .column-header-background {
+	-fx-background-color: #f4f4f4;
+}
+
+.table-view .column-header {
+	-fx-background-color: #f4f4f4;
+	-fx-border-color: #d3d3d3;
+	-fx-border-width: 0 0 1 0;
+}
+
+.table-view .table-row-cell {
+	-fx-background-color: white;
+	-fx-border-color: transparent;
+	-fx-padding: 5px;
+}
+
+.table-view .table-cell {
+	-fx-border-color: #d3d3d3;
+	-fx-border-width: 0 0 1 1;
+	-fx-text-overrun: ellipsis;
+}
+
+.table-view .table-cell:empty {
+	-fx-background-color: white;
+}
+
+.table-view:focused .table-row-cell:focused:selected {
+	-fx-background-color: #b0c4de;
+}
+
+.table-view:focused .table-row-cell:focused:selected .table-cell {
+	-fx-border-color: #b0c4de;
+}
+
+
+.popup-pane {
+	-fx-background-color: white;
+	-fx-padding: 10;
+	-fx-border-width: 1;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}

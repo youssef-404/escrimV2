@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+	<component name="ProjectModuleManager">
+		<modules>
+			<module fileurl="file://$PROJECT_DIR$/Escrim/Escrim.iml"
+				filepath="$PROJECT_DIR$/Escrim/Escrim.iml" />
+			<module fileurl="file://$PROJECT_DIR$/.idea/EscrimProject.iml"
+				filepath="$PROJECT_DIR$/.idea/EscrimProject.iml" />
+		</modules>
+	</component>
+</project>
