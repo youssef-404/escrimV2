@@ -84,3 +84,31 @@
 	-fx-border-width: 1;
 	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
+
+.login-form{
+	-fx-alignment : center;
+	-fx-spacing: 25px;
+}
+
+.login-form .text-field, .login-form .password-field {
+    -fx-padding: 5px; 
+    -fx-font-size: 14px;
+    -fx-background-color: transparent; 
+    -fx-text-fill: white;
+}
+
+.hbox-style {
+    -fx-border-color: white;
+    -fx-border-width: 0 0 2px 0; 
+    -fx-border-style: solid; 
+    -fx-padding: 5px; 
+}
+
+.login-button {
+	-fx-padding: 5px 25px; 
+    -fx-font-size: 14px;
+   	-fx-margin: 25px;
+   	-fx-text-fill: #26266E;
+   	-fx-background-color: white;
+}
