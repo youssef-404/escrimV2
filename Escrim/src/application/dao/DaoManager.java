@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DaoManager {
-	private static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
+	private static final String URL = "jdbc:sqlite:src/application/resources/db/db.db"; 
 	private Connection connection;
 
     public DaoManager(){
