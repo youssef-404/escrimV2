@@ -4,6 +4,7 @@ import application.model.util.Dim3D;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Parcel {
     private int id;
@@ -18,6 +19,11 @@ public class Parcel {
     
     
     private List<Item> items;
+    
+    public Parcel() {
+    	this.items = new ArrayList<>();
+    }
+    
 	public int getId() {
 		return id;
 	}
@@ -72,6 +78,35 @@ public class Parcel {
 	public void setVolume(float volume) {
 		this.volume = volume;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Parcel other = (Parcel) obj;
+		return id == other.id;
+	}
+	
+	public void addItem(Item item) {
+		this.items.add(item);
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+	
+	
 	
 	
 

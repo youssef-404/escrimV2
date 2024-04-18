@@ -27,5 +27,15 @@ public class Inventory {
             System.out.println(item);
         }
     }
+    
+    public Parcel getPackage(int id) {
+    	Parcel parcel = packages.stream()
+        .filter(p -> p.getId()==id)
+        .findFirst()
+        .orElse(null);
+    	
+    	return parcel;
+    	
+    }
 }
 

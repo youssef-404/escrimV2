@@ -25,4 +25,12 @@ public class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
 }
