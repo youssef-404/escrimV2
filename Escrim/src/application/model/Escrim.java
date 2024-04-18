@@ -24,6 +24,16 @@ public class Escrim implements ModelInterface {
 	public void setGlobalInventory(Inventory globalInventory) {
 		this.globalInventory = globalInventory;
 	}
+	
+	
+
+	public Inventory getLocalInventory() {
+		return localInventory;
+	}
+
+	public void setLocalInventory(Inventory localInventory) {
+		this.localInventory = localInventory;
+	}
 
 	public static Escrim getInstance() {
         // Lazy initialization
