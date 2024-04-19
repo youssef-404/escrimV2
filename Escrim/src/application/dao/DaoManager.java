@@ -15,7 +15,7 @@ import java.util.List;
 public class DaoManager {
 
 	protected static DaoManager instance;
-	protected static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
+	protected static final String URL = "jdbc:sqlite:src/application/resources/db/db.db"; 
   
 	protected Connection connection;
 
