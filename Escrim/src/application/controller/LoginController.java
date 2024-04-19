@@ -50,7 +50,7 @@ public class LoginController {
                 //show view.FXML;
             	loadNewFXML("View.fxml");
             }else if(role.equals("Medecin")){
-            	System.out.println("Implement Medecien View");
+            	loadNewFXML("ViewProfile2.fxml");
             }else if(role.equals("Logisticien")){
             	System.out.println("Implement Logisticien View");
 		    }else if(role.equals("Pharmacien")){

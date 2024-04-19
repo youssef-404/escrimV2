@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MedicalSupplyController">
+	<children>
+		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medical Supply">
+			<font>
+				<Font name="Google Sans Regular" size="14.0" />
+			</font>
+		</Text>
+
+		<Separator layoutY="58.0" prefHeight="3.0" prefWidth="761.0" />
+
+		<HBox layoutX="24.0" layoutY="75.0" prefHeight="3.0" prefWidth="200.0" spacing="12.0" styleClass="search-bar" stylesheets="@../resources/css/application.css">
+			<children>
+				<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="10.0" translateY="7.0">
+					<image>
+						<Image url="@../resources/images/search.png" />
+					</image>
+				</ImageView>
+				<TextField fx:id="searchField" alignment="TOP_LEFT" prefHeight="32.0" prefWidth="170.0" promptText="Search..." style="-fx-background-color: transparent;">
+					<font>
+						<Font name="Google Sans Regular" size="14.0" />
+					</font>
+				</TextField>
+			</children>
+		</HBox>
+
+		<TableView fx:id="tableView" layoutX="17.0" layoutY="136.0" prefHeight="385.0" prefWidth="733.0" stylesheets="@../resources/css/application.css">
+			<columns>
+				<TableColumn fx:id="utilityId" prefWidth="57.60000991821289" resizable="false" text="Id" />
+				<TableColumn fx:id="designation" prefWidth="91.99996948242188" resizable="false" text="Designation" />
+				<TableColumn fx:id="utilityDlu" prefWidth="81.5999755859375" resizable="false" text="DLU" />
+				<TableColumn fx:id="utilityQuantity" prefWidth="88.0" resizable="false" text="Quantity" />
+				<TableColumn fx:id="utilityLot" resizable="false" text="Lot" />
+
+			</columns>
+		</TableView>
+	</children>
+</Pane>
