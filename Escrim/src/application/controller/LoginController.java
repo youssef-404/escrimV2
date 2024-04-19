@@ -48,7 +48,7 @@ public class LoginController {
         if (role != null) {
             if (role.equals("Administrator")) {
                 //show view.FXML;
-            	loadFXML("View.fxml");
+            	loadNewFXML("View.fxml");
             }else if(role.equals("Medecin")){
             	System.out.println("Implement Medecien View");
             }else if(role.equals("Logisticien")){
@@ -63,15 +63,22 @@ public class LoginController {
         }
     }
     
-    private void loadFXML(String fxmlFileName) {
+    private void loadNewFXML(String fxmlFileName) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/view/" + fxmlFileName));
 	        Scene scene = new Scene(fxmlLoader.load());
 	        
-	        // Get the current stage from any control within the current scene
-            Stage stage = (Stage) submitButton.getScene().getWindow();
+	        Stage newStage = new Stage();
+	        newStage.setScene(scene);
+
+	        // Close the previous stage
+	        Stage oldStage = (Stage) submitButton.getScene().getWindow();
+	        oldStage.close();
             
-            stage.setScene(scene);
+	        // Show the new stage
+	        newStage.show();
+
+
             
         } catch (IOException e) {
             e.printStackTrace();
