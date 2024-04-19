@@ -9,15 +9,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DaoManager {
 
-	private static DaoManager instance;
-	private static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
+	protected static DaoManager instance;
+	protected static final String URL = "jdbc:sqlite:src/application/resources/db/db.db"; 
   
-	private Connection connection;
+	protected Connection connection;
 
-    private DaoManager(){
+	protected DaoManager(){
 		connect();    		
     }
     
@@ -28,7 +30,7 @@ public class DaoManager {
     	return instance;
     }
 
-    private void connect(){
+    protected void connect(){
         try {
 			connection = DriverManager.getConnection(URL);
 			if (connection == null) {
@@ -101,6 +103,7 @@ public class DaoManager {
 		}
     }
     
+ 
    
     public void close() throws SQLException {
         if (connection != null && !connection.isClosed()) {
@@ -108,5 +111,43 @@ public class DaoManager {
         }
     }
 
-		
+    // User DAO :
+    
+    public List<User> getUsers(){
+    	String sql =null;
+		sql = "SELECT * FROM user";
+        List<User> Users = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+            	User user = new User(rs.getInt("id_user"),rs.getString("username"),rs.getString("password"),rs.getString("role"));
+            	Users.add(user);
+            }
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return Users;
+    }
+    
+    public User getUserByUsername(String username){
+        String sql = "SELECT * FROM user WHERE username = ?";
+        User user = new User(0,null,null,null);
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    user = new User(rs.getInt("id_user"), rs.getString("username"), rs.getString("password"), rs.getString("role"));
+                }
+            }
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return user;
+    }
+    
+    public String authenticate(String username, String password) {
+    	User user = getUserByUsername(username);
+    	if(user.checkPassword(password)) return user.getRole(); 
+    	else return null;
+    }
 }
