@@ -38,6 +38,12 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	// Function to check password
+	
+    public boolean checkPassword(String inputPassword) {
+        return this.password.equals(inputPassword);
+    }
     
     
 }

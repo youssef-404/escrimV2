@@ -113,7 +113,7 @@ public class DaoManager {
 
     // User DAO :
     
-    public List<User> getUsers() throws SQLException {
+    public List<User> getUsers(){
     	String sql =null;
 		sql = "SELECT * FROM user";
         List<User> Users = new ArrayList<>();
@@ -123,22 +123,31 @@ public class DaoManager {
             	User user = new User(rs.getInt("id_user"),rs.getString("username"),rs.getString("password"),rs.getString("role"));
             	Users.add(user);
             }
-        }
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
         return Users;
     }
     
-    public List<User> getUserByUsername(String username) throws SQLException {
+    public User getUserByUsername(String username){
         String sql = "SELECT * FROM user WHERE username = ?";
-        List<User> users = new ArrayList<>();
+        User user = new User(0,null,null,null);
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    User user = new User(rs.getInt("id_user"), rs.getString("username"), rs.getString("password"), rs.getString("role"));
-                    users.add(user);
+                    user = new User(rs.getInt("id_user"), rs.getString("username"), rs.getString("password"), rs.getString("role"));
                 }
             }
-        }
-        return users;
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return user;
+    }
+    
+    public String authenticate(String username, String password) {
+    	User user = getUserByUsername(username);
+    	if(user.checkPassword(password)) return user.getRole(); 
+    	else return null;
     }
 }

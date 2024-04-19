@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="326.0" style="-fx-background-color: #26266E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="326.0" style="-fx-background-color: #26266E;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LoginController">
    <children>
       <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="118.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -27,7 +27,7 @@
                         <Image url="@../resources/images/user.png" />
                      </image>
                   </ImageView>
-                  <TextField prefHeight="30.0" prefWidth="177.0" promptText="Username" translateY="4.0" />
+                  <TextField fx:id="username" prefHeight="30.0" prefWidth="177.0" promptText="Username" translateY="4.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="210.0" spacing="10.0" styleClass="hbox-style" stylesheets="@../resources/css/application.css">
@@ -37,10 +37,10 @@
                         <Image url="@../resources/images/padlock.png" />
                      </image>
                   </ImageView>
-                  <PasswordField prefHeight="30.0" prefWidth="177.0" promptText="Password" translateY="4.0" />
+                  <PasswordField fx:id="password" prefHeight="30.0" prefWidth="177.0" promptText="Password" translateY="4.0" />
                </children>
             </HBox>
-            <Button mnemonicParsing="false" styleClass="login-button" stylesheets="@../resources/css/application.css" text="LOGIN" textAlignment="CENTER" translateY="20.0">
+            <Button fx:id="submitButton" mnemonicParsing="false" styleClass="login-button" stylesheets="@../resources/css/application.css" text="LOGIN" textAlignment="CENTER" translateY="20.0">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
