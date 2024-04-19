@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.TableViewControllerProfile2">
+	<children>
+		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Inventories">
+			<font>
+				<Font name="Google Sans Regular" size="14.0" />
+			</font>
+		</Text>
+
+		<Separator layoutY="58.0" prefHeight="3.0" prefWidth="761.0" />
+
+		<HBox layoutX="24.0" layoutY="75.0" prefHeight="3.0" prefWidth="200.0" spacing="12.0" styleClass="search-bar" stylesheets="@../resources/css/application.css">
+			<children>
+				<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="10.0" translateY="7.0">
+					<image>
+						<Image url="@../resources/images/search.png" />
+					</image>
+				</ImageView>
+				<TextField fx:id="searchField" alignment="TOP_LEFT" prefHeight="32.0" prefWidth="170.0" promptText="Search..." style="-fx-background-color: transparent;">
+					<font>
+						<Font name="Google Sans Regular" size="14.0" />
+					</font>
+				</TextField>
+			</children>
+		</HBox>
+		<Button layoutX="626.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Download">
+			<graphic>
+				<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="-4.0">
+					<image>
+						<Image url="@../resources/images/download.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
+
+		<TableView fx:id="tableView" layoutX="17.0" layoutY="136.0" prefHeight="385.0" prefWidth="733.0" stylesheets="@../resources/css/application.css">
+			<columns>
+				<TableColumn fx:id="id" prefWidth="57.60000991821289" resizable="false" text="Parcel Id" />
+				<TableColumn fx:id="assignment" prefWidth="91.99996948242188" resizable="false" text="Assignment" />
+				<TableColumn fx:id="module" prefWidth="74.4000244140625" resizable="false" text="Model" />
+				<TableColumn fx:id="nominal" prefWidth="87.19999694824219" resizable="false" text="Nominal" />
+				<TableColumn fx:id="type" prefWidth="81.5999755859375" resizable="false" text="Nature" />
+				<TableColumn fx:id="sector" prefWidth="88.0" resizable="false" text="Sector" />
+				<TableColumn fx:id="dimension" resizable="false" text="Dimension" />
+				<TableColumn fx:id="volume" resizable="false" text="Volume" />
+				<TableColumn fx:id="weight" prefWidth="70.4000244140625" resizable="false" text="Weight" />
+
+			</columns>
+		</TableView>
+		<AnchorPane fx:id="popup" prefHeight="538.0" prefWidth="709.0" visible="false">
+			<children>
+				<Pane fx:id="popupContent" layoutX="80.0" layoutY="107.0" prefHeight="371.0" prefWidth="550.0" styleClass="popup-pane" stylesheets="@../resources/css/application.css" AnchorPane.bottomAnchor="60.19999999999999" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="79.20000000000005" AnchorPane.topAnchor="107.0">
+					<children>
+						<TextFlow layoutX="21.0" layoutY="14.0" prefHeight="28.0" prefWidth="113.0" style="-fx-background-color: #080954; -fx-background-radius: 5px;" textAlignment="CENTER">
+							<children>
+								<Text fx:id="moreInfoId" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Parcel N° 124" textAlignment="CENTER">
+									<font>
+										<Font name="System Bold" size="14.0" />
+									</font>
+								</Text>
+							</children>
+							<padding>
+								<Insets bottom="5.0" top="5.0" />
+							</padding>
+						</TextFlow>
+						<Separator layoutY="57.0" prefHeight="3.0" prefWidth="550.0" />
+						<TextFlow layoutX="21.0" layoutY="73.0" prefHeight="106.0" prefWidth="210.0" style="-fx-background-color: #F1F1F1; -fx-background-radius: 5px;">
+							<children>
+								<VBox prefHeight="83.0" prefWidth="172.0" spacing="5.0">
+									<children>
+										<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parcel Information">
+											<font>
+												<Font size="14.0" />
+											</font>
+										</Text>
+										<HBox prefHeight="18.0" prefWidth="172.0" spacing="20.0">
+											<VBox.margin>
+												<Insets top="10.0" />
+											</VBox.margin>
+											<children>
+												<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nature :" />
+												<Text fx:id="moreInfoNature" strokeType="OUTSIDE" strokeWidth="0.0" text="Bac" />
+											</children>
+										</HBox>
+										<HBox prefHeight="18.0" prefWidth="172.0" spacing="20.0">
+											<children>
+												<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sector :" />
+												<Text fx:id="moreInfoSector" strokeType="OUTSIDE" strokeWidth="0.0" text="(J) Pharmacie-labo " />
+											</children>
+										</HBox>
+                              <HBox prefHeight="18.0" prefWidth="172.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Assignment :" />
+                                    <Text fx:id="moreInfoDesignation" strokeType="OUTSIDE" strokeWidth="0.0" text="(J) Pharmacie-labo " />
+                                 </children>
+                              </HBox>
+									</children>
+								</VBox>
+							</children>
+							<padding>
+								<Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+							</padding>
+						</TextFlow>
+						<TextFlow layoutX="21.0" layoutY="198.0" prefHeight="106.0" prefWidth="210.0" style="-fx-background-color: #F1F1F1; -fx-background-radius: 5px;">
+							<children>
+      								<VBox prefHeight="114.0" prefWidth="172.0" spacing="5.0">
+      									<children>
+      										<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Physical Attributes">
+      											<font>
+      												<Font size="14.0" />
+      											</font>
+      										</Text>
+      										<HBox prefHeight="18.0" prefWidth="172.0" spacing="20.0">
+      											<VBox.margin>
+      												<Insets top="10.0" />
+      											</VBox.margin>
+      											<children>
+      												<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dimension :" />
+      												<Text fx:id="moreInfoDimension" strokeType="OUTSIDE" strokeWidth="0.0" text="Bac" />
+      											</children>
+      										</HBox>
+      										<HBox prefHeight="18.0" prefWidth="172.0" spacing="20.0">
+      											<children>
+      												<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Volume :" />
+      												<Text fx:id="moreInfoVolume" strokeType="OUTSIDE" strokeWidth="0.0" text="(J) Pharmacie-labo " />
+      											</children>
+      										</HBox>
+                              <HBox prefHeight="18.0" prefWidth="172.0" spacing="20.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight :" />
+                                    <Text fx:id="moreInfoWeight" strokeType="OUTSIDE" strokeWidth="0.0" text="(J) Pharmacie-labo " />
+                                 </children>
+                              </HBox>
+      									</children>
+      								</VBox>
+							</children>
+							<padding>
+								<Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+							</padding>
+						</TextFlow>
+      						<TextFlow layoutX="250.0" layoutY="73.0" prefHeight="258.0" prefWidth="288.0" style="-fx-background-color: #F1F1F1; -fx-background-radius: 5px;">
+      							<children>
+      								<VBox prefHeight="23.0" prefWidth="172.0" spacing="5.0">
+      									<children>
+      										<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Articles">
+      											<font>
+      												<Font size="14.0" />
+      											</font>
+      										</Text>
+      									</children>
+      								</VBox>
+                        <TableView fx:id="moreInfoTable" prefHeight="214.0" prefWidth="248.0">
+                          <columns>
+                            <TableColumn fx:id="itemId" prefWidth="56.00006103515625" text="Article Id" />
+                            <TableColumn fx:id="itemDesignation" prefWidth="127.199951171875" text="Designation" />
+                              <TableColumn fx:id="itemQuantity" prefWidth="64.00006103515625" text="Quantity" />
+                          </columns>
+                        </TableView>
+      							</children>
+      							<padding>
+      								<Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+      							</padding>
+      						</TextFlow>
+					</children>
+				</Pane>
+			</children>
+		</AnchorPane>
+	</children>
+</Pane>

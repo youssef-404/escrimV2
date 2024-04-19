@@ -19,9 +19,13 @@ public class Parcel {
     
     
     private List<Item> items;
+    private List<Medicaments> medicaments;
+    private List<Utility> utilities;
     
     public Parcel() {
     	this.items = new ArrayList<>();
+    	this.medicaments = new ArrayList<>();
+    	this.utilities = new ArrayList<>();
     }
     
 	public int getId() {
@@ -94,6 +98,14 @@ public class Parcel {
 		return id == other.id;
 	}
 	
+	public List<Medicaments> getMedicaments() {
+		return medicaments;
+	}
+
+	public void setMedicaments(List<Medicaments> medicaments) {
+		this.medicaments = medicaments;
+	}
+
 	public void addItem(Item item) {
 		this.items.add(item);
 	}
@@ -105,6 +117,24 @@ public class Parcel {
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
+	
+	public void addMedicament(Medicaments meds) {
+		this.medicaments.add(meds);
+	}
+
+	public void addutility(Utility utility) {
+		this.utilities.add(utility);
+		
+	}
+
+	public List<Utility> getUtilities() {
+		return utilities;
+	}
+
+	public void setUtilities(List<Utility> utilities) {
+		this.utilities = utilities;
+	}
+	
 	
 	
 	

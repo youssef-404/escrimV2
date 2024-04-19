@@ -9,13 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DaoManager {
 
 	protected static DaoManager instance;
-	protected static final String URL = "jdbc:sqlite:src/application/resources/db/db.db"; 
+	protected static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
   
 	protected Connection connection;
 
@@ -78,6 +81,8 @@ public class DaoManager {
             	parcel.setVolume(rs.getFloat("volume"));
             	
             	getParcelItems(parcel);
+            	getParcelMeds(parcel);
+            	getParcelMedsSupply(parcel);
             	
             	parcels.addItem(parcel);
             }
@@ -103,6 +108,42 @@ public class DaoManager {
 		}
     }
     
+    void getParcelMeds(Parcel parcel) {
+    	try {
+    		String sql = "SELECT * FROM medication WHERE parcel = ?;";
+    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+    		PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, parcel.getId());
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Medicaments medicament = new Medicaments(rs.getInt("id_med"),rs.getString("produit"),rs.getString("dci"),rs.getString("dosage"),LocalDate.parse(rs.getString("dlu"),formatter),rs.getInt("quantity"),rs.getString("medClass"),rs.getInt("parcel"));
+				parcel.addMedicament(medicament);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    
+    void getParcelMedsSupply(Parcel parcel) {
+    	try {
+    		String sql = "SELECT * FROM medicalSupply WHERE parcel = ?;";
+    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+    		PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, parcel.getId());
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Utility utility= new Utility(rs.getInt("id"),rs.getString("designation"),LocalDate.parse(rs.getString("dlu"),formatter),rs.getInt("quantity"),rs.getInt("parcel"));
+				parcel.addutility(utility);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
  
    
     public void close() throws SQLException {
