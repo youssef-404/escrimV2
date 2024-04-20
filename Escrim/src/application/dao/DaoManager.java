@@ -1,6 +1,7 @@
 package application.dao;
 
 import application.model.*;
+import application.model.util.Dim2D;
 import application.model.util.Dim3D;
 
 import java.sql.Connection;
@@ -150,4 +151,185 @@ public class DaoManager {
     	if(user.checkPassword(password)) return user.getRole(); 
     	else return null;
     }
+    
+    //Config DAO
+    
+    public List<Configuration> getAllConfigurations() {
+        List<Configuration> configurations = new ArrayList<>();
+        String sql = "SELECT * FROM configuration";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Configuration config = new Configuration();
+                config.setId(rs.getInt("id"));
+                config.setName(rs.getString("name"));
+                config.setCatastrophe(rs.getString("disaster"));
+                config.setAvions(fetchPlanesForConfiguration(config.getId()));
+                configurations.add(config);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return configurations;
+    }
+    
+    private List<Plane> fetchPlanesForConfiguration(int configurationId) {
+        List<Plane> planes = new ArrayList<>();
+        String sql = "SELECT aircraft.* FROM aircraft "
+                + "JOIN configuration_aircraft ON aircraft.id = configuration_aircraft.aircraftId "
+                + "WHERE configuration_aircraft.configurationId = ?";
+
+                   
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, configurationId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Plane plane = new Plane();
+                    plane.setId(rs.getInt("id"));
+                    plane.setName(rs.getString("name"));
+                    plane.setMaxLoad(rs.getFloat("maxload"));
+                    plane.setDoorSize(parseDim2D(rs.getString("doorSize")));
+                    plane.setCargoHold(parseDim3D(rs.getString("cargoHold")));
+                    plane.setLoadRange(rs.getFloat("loadRange"));
+                    planes.add(plane);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return planes;
+    }
+    
+    private Dim2D parseDim2D(String dimension) {
+        String[] parts = dimension.split("x");
+        if (parts.length == 2) {
+            try {
+                double length = Double.parseDouble(parts[0]);
+                double width = Double.parseDouble(parts[1]);
+                return new Dim2D(length, width);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return null; 
+    }
+
+    private Dim3D parseDim3D(String dimension) {
+        String[] parts = dimension.split("x");
+        if (parts.length == 3) {
+            try {
+                double length = Double.parseDouble(parts[0]);
+                double width = Double.parseDouble(parts[1]);
+                double height = Double.parseDouble(parts[2]);
+                return new Dim3D(length, width, height);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return null; 
+    }
+    
+    public void addConfiguration(Configuration config, List<Parcel> selectedParcels, List<Plane> selectedPlanes) throws SQLException {
+        String sqlConfig = "INSERT INTO configuration (name, disaster) VALUES (?, ?)";
+
+        try (PreparedStatement pstmtConfig = connection.prepareStatement(sqlConfig, Statement.RETURN_GENERATED_KEYS)) {
+            pstmtConfig.setString(1, config.getName());
+            pstmtConfig.setString(2, config.getCatastrophe());
+            int affectedRows = pstmtConfig.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating configuration failed, no rows affected.");
+            }
+
+            int configurationId;
+            try (ResultSet generatedKeys = pstmtConfig.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    configurationId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating configuration failed, no ID obtained.");
+                }
+            }
+
+            associateParcelsWithConfiguration(configurationId, selectedParcels);
+
+            for (Plane plane : selectedPlanes) {
+                associatePlaneWithConfiguration(configurationId, plane.getId());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; 
+        }
+    }
+
+    public void associatePlaneWithConfiguration(int configurationId, int planeId) throws SQLException {
+        String sql = "INSERT INTO configuration_aircraft (configurationId, aircraftId) VALUES (?, ?)";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, configurationId);
+            pstmt.setInt(2, planeId);
+            pstmt.executeUpdate();
+        }
+    }
+
+    
+    public void associateParcelsWithConfiguration(int configurationId, List<Parcel> selectedParcels) throws SQLException {
+        String sql = "INSERT INTO configuration_parcel (configurationId, parcelId) VALUES (?, ?)";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            for (Parcel parcel : selectedParcels) {
+                pstmt.setInt(1, configurationId);
+                pstmt.setInt(2, parcel.getId());
+                pstmt.executeUpdate();
+            }
+        }
+    }
+
+
+    
+    public List<Parcel> getAllParcels() {
+        List<Parcel> parcels = new ArrayList<>();
+        String sql = "SELECT * FROM parcel";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Parcel parcel = new Parcel();
+                parcel.setId(rs.getInt("id"));
+                parcel.setModel(rs.getString("module"));
+                parcels.add(parcel);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return parcels;
+    }
+    
+    public List<Plane> getAllAircraft() {
+        List<Plane> aircraft = new ArrayList<>();
+        String sql = "SELECT * FROM aircraft";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Plane plane = new Plane();
+                plane.setId(rs.getInt("id")); 
+                plane.setName(rs.getString("name"));
+                plane.setMaxLoad(rs.getFloat("maxload"));
+                plane.setDoorSize(parseDim2D(rs.getString("doorSize")));
+                plane.setCargoHold(parseDim3D(rs.getString("cargoHold")));
+                aircraft.add(plane);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return aircraft;
+    }
+
+
+
 }
