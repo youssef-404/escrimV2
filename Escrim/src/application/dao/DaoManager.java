@@ -16,7 +16,7 @@ import java.util.List;
 public class DaoManager {
 
 	protected static DaoManager instance;
-	protected static final String URL = "jdbc:sqlite:src/application/resources/db/db.db"; 
+	protected static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
   
 	protected Connection connection;
 
@@ -167,7 +167,10 @@ public class DaoManager {
                 config.setName(rs.getString("name"));
                 config.setCatastrophe(rs.getString("disaster"));
                 config.setAvions(fetchPlanesForConfiguration(config.getId()));
+                config.setColis(fetchColisForConfiguration(config.getId()));
                 configurations.add(config);
+                
+                System.out.println(fetchColisForConfiguration(config.getId()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -203,6 +206,34 @@ public class DaoManager {
         return planes;
     }
     
+    private List<Parcel> fetchColisForConfiguration(int configId){
+    	List<Parcel> Allparcels = getAllParcels();
+    	List<Parcel> configParcels = new ArrayList<>();
+    	String sql= "select parcelId from Configuration_parcel where configurationId=?;";
+    	try {
+    		PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, configId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				int parcelId= rs.getInt("parcelId");
+				Parcel parcel =Allparcels.stream()
+				        .filter(pcl -> pcl.getId()== parcelId)
+				        .findFirst()
+				        .orElse(null);
+				
+				if(parcel != null) {
+					configParcels.add(parcel);
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return configParcels;
+    	
+    }
+    
     private Dim2D parseDim2D(String dimension) {
         String[] parts = dimension.split("x");
         if (parts.length == 2) {
@@ -211,6 +242,7 @@ public class DaoManager {
                 double width = Double.parseDouble(parts[1]);
                 return new Dim2D(length, width);
             } catch (NumberFormatException e) {
+            	
                 e.printStackTrace();
             }
         }
@@ -299,7 +331,15 @@ public class DaoManager {
             while (rs.next()) {
                 Parcel parcel = new Parcel();
                 parcel.setId(rs.getInt("id"));
-                parcel.setModel(rs.getString("module"));
+            	parcel.setAffectaire(rs.getString("assignment"));
+            	parcel.setModel(rs.getString("module"));
+            	parcel.setNominal(rs.getString("nominal"));
+            	parcel.setType(rs.getString("type"));
+            	parcel.setSecteur(rs.getString("sector"));
+            	String[] dim = (rs.getString("dimension")).split("X");
+            	parcel.setDim(new Dim3D(Double.parseDouble(dim[0]),Double.parseDouble(dim[1]),Double.parseDouble(dim[2])));
+            	parcel.setWeight(rs.getFloat("weight"));
+            	parcel.setVolume(rs.getFloat("volume"));
                 parcels.add(parcel);
             }
         } catch (SQLException e) {
