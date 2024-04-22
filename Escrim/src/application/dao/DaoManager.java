@@ -16,7 +16,7 @@ import java.util.List;
 public class DaoManager {
 
 	protected static DaoManager instance;
-	protected static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
+	protected static final String URL = "jdbc:sqlite:src/application/resources/db/db.db"; 
   
 	protected Connection connection;
 
@@ -370,6 +370,98 @@ public class DaoManager {
         return aircraft;
     }
 
+    public void updateConfiguration(Configuration config, List<Parcel> selectedParcels, List<Plane> selectedPlanes) throws SQLException {
+        String sqlConfig = "UPDATE configuration SET name = ?, disaster = ? WHERE id = ?";
+
+        try (PreparedStatement pstmtConfig = connection.prepareStatement(sqlConfig)) {
+            pstmtConfig.setString(1, config.getName());
+            pstmtConfig.setString(2, config.getCatastrophe());
+            pstmtConfig.setInt(3, config.getId());
+            int affectedRows = pstmtConfig.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Updating configuration failed, no rows affected.");
+            }
+
+            updateParcelsForConfiguration(config.getId(), selectedParcels);
+            updatePlanesForConfiguration(config.getId(), selectedPlanes);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } 
+    }
+
+    private void updateParcelsForConfiguration(int configId, List<Parcel> parcels) throws SQLException {
+        String sqlDelete = "DELETE FROM configuration_parcel WHERE configurationId = ?";
+        try (PreparedStatement pstmtDelete = connection.prepareStatement(sqlDelete)) {
+            pstmtDelete.setInt(1, configId);
+            pstmtDelete.executeUpdate();
+        }
+
+        String sqlInsert = "INSERT INTO configuration_parcel (configurationId, parcelId) VALUES (?, ?)";
+        try (PreparedStatement pstmtInsert = connection.prepareStatement(sqlInsert)) {
+            for (Parcel parcel : parcels) {
+                pstmtInsert.setInt(1, configId);
+                pstmtInsert.setInt(2, parcel.getId());
+                pstmtInsert.executeUpdate();
+            }
+        }
+    }
+
+    private void updatePlanesForConfiguration(int configId, List<Plane> planes) throws SQLException {
+        String sqlDelete = "DELETE FROM configuration_aircraft WHERE configurationId = ?";
+        try (PreparedStatement pstmtDelete = connection.prepareStatement(sqlDelete)) {
+            pstmtDelete.setInt(1, configId);
+            pstmtDelete.executeUpdate();
+        }
+
+        String sqlInsert = "INSERT INTO configuration_aircraft (configurationId, aircraftId) VALUES (?, ?)";
+        try (PreparedStatement pstmtInsert = connection.prepareStatement(sqlInsert)) {
+            for (Plane plane : planes) {
+                pstmtInsert.setInt(1, configId);
+                pstmtInsert.setInt(2, plane.getId());
+                pstmtInsert.executeUpdate();
+            }
+        }
+    }
+
+    
+    
+    public void deleteConfiguration(int configId) throws SQLException {
+
+    	deleteParcelsForConfiguration(configId);
+    	deletePlanesForConfiguration(configId);
+
+    	String sqlConfig = "DELETE FROM configuration WHERE id = ?";
+    	try (PreparedStatement pstmtConfig = connection.prepareStatement(sqlConfig)) {
+    		pstmtConfig.setInt(1, configId);
+    		int affectedRows = pstmtConfig.executeUpdate();
+    		if (affectedRows == 0) {
+    			throw new SQLException("Deleting configuration failed, no rows affected.");
+    		}
+        } catch (SQLException e) {
+        	e.printStackTrace();
+            throw e;
+        } 
+    }
+    
+    
+    private void deleteParcelsForConfiguration(int configId) throws SQLException {
+        String sqlDeleteParcels = "DELETE FROM configuration_parcel WHERE configurationId = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlDeleteParcels)) {
+            pstmt.setInt(1, configId);
+            pstmt.executeUpdate();
+        }
+    }
+
+    private void deletePlanesForConfiguration(int configId) throws SQLException {
+        String sqlDeletePlanes = "DELETE FROM configuration_aircraft WHERE configurationId = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlDeletePlanes)) {
+            pstmt.setInt(1, configId);
+            pstmt.executeUpdate();
+        }
+    }
 
 
 }

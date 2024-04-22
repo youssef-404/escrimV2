@@ -4,6 +4,7 @@ package application.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import application.dao.DaoManager;
 import application.model.Configuration;
@@ -19,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -53,10 +55,24 @@ public class ConfigurationController {
     private ListView<Parcel> parcelsListView;
     
     @FXML
+    private ListView<Parcel> selectedParcelsListView;
+    
+    @FXML
     private ListView<Plane> aircraftListView;
+    
+    @FXML
+    private ListView<Plane> selectedAircraftsListView;
     
     @FXML 
     private Button addConfig;
+    
+    @FXML 
+    private Button updateConfig;
+    
+    @FXML 
+    private Button deleteConfig;
+    
+    private Configuration lastSelectedConfiguration = null;
 	
 	public void initialize() {
 		
@@ -65,17 +81,33 @@ public class ConfigurationController {
 		loadConfigurations();
 		
 		parcelsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        aircraftListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		selectedParcelsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		aircraftListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		selectedAircraftsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
 		populateParcelsListView();
         populateAircraftListView();
         
-        tableViewConfig.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                updateFormFields(newSelection);
+        populateSelectedParcelsListView();
+        populateSelectedAircraftsListView();
+        
+        updateConfig.setDisable(true);
+        deleteConfig.setDisable(true);
+        
+        tableViewConfig.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1 && tableViewConfig.getSelectionModel().getSelectedItem() != null) {
+                Configuration selectedConfig = tableViewConfig.getSelectionModel().getSelectedItem();
+                if (selectedConfig.equals(lastSelectedConfiguration)) {
+                    tableViewConfig.getSelectionModel().clearSelection();
+                    clearForm();
+                    lastSelectedConfiguration = null;
+                } else {
+                    lastSelectedConfiguration = selectedConfig;
+                    loadConfigData(selectedConfig);
+                }
             }
         });
-        
+
         
 	}
 	
@@ -118,7 +150,7 @@ public class ConfigurationController {
 	            if (empty || plane == null) {
 	                setText(null);
 	            } else {
-	                setText(plane.getName() + " - Max Load: " + plane.getMaxLoad() + " Kg");
+	                setText(plane.getName());
 	            }
 	        }
 	    });
@@ -155,25 +187,27 @@ public class ConfigurationController {
     private void clearForm() {
         nameTextField.clear();
         disasterTextField.clear();
-        parcelsListView.getSelectionModel().clearSelection();
-        aircraftListView.getSelectionModel().clearSelection();
+        selectedParcelsListView.getItems().clear();
+        selectedAircraftsListView.getItems().clear();
     }
     
     private boolean validateInput() {
         String name = nameTextField.getText().trim();
         String disaster = disasterTextField.getText().trim();
+        ObservableList<Parcel> parcels = selectedParcelsListView.getItems();
+        ObservableList<Plane> aircrafts = selectedAircraftsListView.getItems();
 
         if (name.isEmpty() || disaster.isEmpty()) {
             showErrorDialog("Input Error", "Please fill in all text fields.");
             return false;
         }
 
-        if (parcelsListView.getSelectionModel().getSelectedItems().isEmpty()) {
+        if (parcels.isEmpty()) {
             showErrorDialog("Selection Error", "Please select at least one parcel.");
             return false;
         }
 
-        if (aircraftListView.getSelectionModel().getSelectedItems().isEmpty()) {
+        if (aircrafts.isEmpty()) {
             showErrorDialog("Selection Error", "Please select at least one aircraft.");
             return false;
         }
@@ -188,26 +222,156 @@ public class ConfigurationController {
         alert.setContentText(content);                
         alert.showAndWait();                           
     }
+    
+    private void showSuccessDialog(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION); 
+        alert.setTitle(title);                         
+        alert.setHeaderText(null);                 
+        alert.setContentText(content);                
+        alert.showAndWait();                           
+    }
 
     
-    private void updateFormFields(Configuration config) {
+    private void loadConfigData(Configuration config) {
         if (config == null) {
-            nameTextField.clear();
-            disasterTextField.clear();
-            parcelsListView.setItems(FXCollections.observableArrayList());
-            aircraftListView.setItems(FXCollections.observableArrayList());
+            clearForm();
         } else {
-            nameTextField.setText(config.getName() != null ? config.getName() : "");
-            disasterTextField.setText(config.getCatastrophe() != null ? config.getCatastrophe() : "");
+            nameTextField.setText(config.getName());
+            disasterTextField.setText(config.getCatastrophe());
 
-            ObservableList<Parcel> parcelList = config.getColis() != null ?
-                FXCollections.observableArrayList(config.getColis()) : FXCollections.observableArrayList();
-            parcelsListView.setItems(parcelList);
+            ObservableList<Parcel> selectedParcelsList = FXCollections.observableArrayList(config.getColis());
+            selectedParcelsListView.setItems(selectedParcelsList);  
 
-            ObservableList<Plane> planeList = config.getAvions() != null ?
-                FXCollections.observableArrayList(config.getAvions()) : FXCollections.observableArrayList();
-            aircraftListView.setItems(planeList);
+            List<Parcel> allParcels = daoManager.getAllParcels();
+            allParcels.removeAll(selectedParcelsList); 
+            parcelsListView.setItems(FXCollections.observableArrayList(allParcels));
+            
+            ObservableList<Plane> selectedAircraftsList = FXCollections.observableArrayList(config.getAvions());
+            selectedAircraftsListView.setItems(selectedAircraftsList);
+            
+            List<Plane> allAircrafts = daoManager.getAllAircraft();
+            allAircrafts.removeAll(selectedAircraftsList); 
+            aircraftListView.setItems(FXCollections.observableArrayList(allAircrafts));
+            
+            addConfig.setDisable(true);
+
         }
     }
+
+    
+    @FXML
+    private void moveSelectedParcelsToRight() {
+        List<Parcel> selectedItems = new ArrayList<>(parcelsListView.getSelectionModel().getSelectedItems());
+        selectedParcelsListView.getItems().addAll(selectedItems);
+        parcelsListView.getItems().removeAll(selectedItems);
+    }
+
+    @FXML
+    private void moveSelectedParcelsToLeft() {
+        List<Parcel> selectedItems = new ArrayList<>(selectedParcelsListView.getSelectionModel().getSelectedItems());
+        parcelsListView.getItems().addAll(selectedItems);
+        selectedParcelsListView.getItems().removeAll(selectedItems);
+    }
+    
+
+    
+    private void populateSelectedParcelsListView() {
+        selectedParcelsListView.setItems(FXCollections.observableArrayList());
+        selectedParcelsListView.setCellFactory(listView -> new ListCell<Parcel>() {
+            @Override
+            protected void updateItem(Parcel item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getId() + " - " + item.getModel());
+                }
+            }
+        });
+    }
+    
+    @FXML
+    private void moveSelectedAircraftsToRight() {
+        List<Plane> selectedItems = new ArrayList<>(aircraftListView.getSelectionModel().getSelectedItems());
+        selectedAircraftsListView.getItems().addAll(selectedItems);
+        aircraftListView.getItems().removeAll(selectedItems);
+    }
+
+    @FXML
+    private void moveSelectedAircraftsToLeft() {
+        List<Plane> selectedItems = new ArrayList<>(selectedAircraftsListView.getSelectionModel().getSelectedItems());
+        aircraftListView.getItems().addAll(selectedItems);
+        selectedAircraftsListView.getItems().removeAll(selectedItems);
+    }
+    
+
+    
+    private void populateSelectedAircraftsListView() {
+    	selectedAircraftsListView.setItems(FXCollections.observableArrayList());
+    	selectedAircraftsListView.setCellFactory(listView -> new ListCell<Plane>() {
+            @Override
+            protected void updateItem(Plane item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getId() + " - " + item.getName());
+                }
+            }
+        });
+    }
+    
+ 
+    @FXML
+    private void handleUpdateAction() {
+        Configuration selectedConfig = tableViewConfig.getSelectionModel().getSelectedItem();
+        if (selectedConfig == null) {
+            showErrorDialog("Update Error", "No configuration selected.");
+            return;
+        }
+
+        if (!validateInput()) {
+            return; 
+        }
+
+        selectedConfig.setName(nameTextField.getText().trim());
+        selectedConfig.setCatastrophe(disasterTextField.getText().trim());
+        
+        List<Parcel> selectedParcels = new ArrayList<>(selectedParcelsListView.getItems());
+        List<Plane> selectedPlanes = new ArrayList<>(aircraftListView.getSelectionModel().getSelectedItems());
+
+        try {
+            daoManager.updateConfiguration(selectedConfig, selectedParcels, selectedPlanes);
+            showSuccessDialog("Success", "Configuration updated successfully.");
+            loadConfigurations(); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorDialog("Update Error", "Failed to update the configuration: " + e.getMessage());
+        }
+    }
+
+    
+    @FXML
+    private void handleDeleteAction() {
+        Configuration selectedConfig = tableViewConfig.getSelectionModel().getSelectedItem();
+        if (selectedConfig == null) {
+            showErrorDialog("Delete Error", "No configuration selected.");
+            return;
+        }
+
+        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this configuration?");
+        Optional<ButtonType> result = confirmDialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                daoManager.deleteConfiguration(selectedConfig.getId());
+                showSuccessDialog("Success", "Configuration deleted successfully.");
+                loadConfigurations(); 
+            } catch (Exception e) {
+                showErrorDialog("Deletion Error", "Failed to delete the configuration: " + e.getMessage());
+            }
+        }
+    }
+
+    
     
 }
