@@ -53,9 +53,13 @@ public class Escrim implements ModelInterface {
 	public void setConfigurationId(int configurationId) {
 		this.configurationId = configurationId;
 	}
+	
+	public boolean getState() {
+		return this.State;
+	}
 
 	public void setState(boolean state) {
-		State = state;
+		this.State = state;
 	}
 
     public String getCountry() {
@@ -96,34 +100,7 @@ public class Escrim implements ModelInterface {
         return State;
     }
 
-    public void toogleState() {
-        this.State = !this.State;
-        if (State) {
-            localInventory = new Inventory();
-        } else {
-            localInventory = null;
-        }
-    }
 
-    public void deploy(Configuration config) {
-        boolean flag = true;
-        for (Parcel p : config.getColis()) {
-            //CHeck if Package exists
-            if (!globalInventory.getPackages().contains(p)) {
-                System.out.println("Error: Package p.getId()  not found in global inventory.");
-                flag = false;
-            }
-        }
-
-        //Move Colis from Inv to Inv
-        if (flag) {
-            for (Parcel p : config.getColis()) {
-                globalInventory.RemoveItem(p);
-                localInventory.addItem(p);
-            }
-        }
-
-    }
 
 
 }
