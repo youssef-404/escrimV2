@@ -112,3 +112,20 @@
    	-fx-text-fill: #26266E;
    	-fx-background-color: white;
 }
+
+.logout-button {
+    -fx-background-color: #f02d3a; 
+    -fx-text-fill: white; 
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+	-fx-border-radius: 10px;
+}
+
+.logout-button:hover {
+    -fx-background-color: #dd0426;
+}
+
+.logout-button:pressed {
+    -fx-background-color: #cc4230;
+    -fx-translate-y: 2px; 
+}
