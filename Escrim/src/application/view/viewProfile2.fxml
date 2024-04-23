@@ -64,6 +64,18 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
 								</Button>
+                        <Button fx:id="patientButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Patients">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resources/images/gear.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
 								<Button fx:id="statisticsButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Statistics">
 									<graphic>
 										<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateY="-2.0">

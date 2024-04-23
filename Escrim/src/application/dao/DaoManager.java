@@ -4,6 +4,7 @@ import application.model.*;
 import application.model.util.Dim3D;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.List;
 public class DaoManager {
 
 	protected static DaoManager instance;
-	protected static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
+	protected static final String URL = "jdbc:sqlite:src/application/resources/db/db.db"; 
   
 	protected Connection connection;
 
@@ -191,4 +192,105 @@ public class DaoManager {
     	if(user.checkPassword(password)) return user.getRole(); 
     	else return null;
     }
+    
+    // Patient Dao
+    
+    public List<Patient> getPatients(){
+    	String sql =null;
+		sql = "SELECT * FROM patient";
+        List<Patient> Patients = new ArrayList<>();
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+            	Patient Patient = new Patient(rs.getInt("id_patient "),rs.getString("name"),rs.getInt("age"),rs.getString("gender"));
+            	Patients.add(Patient);
+            }
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return Patients;
+    }
+    
+    public int addPatient(Patient p) {
+        String sql = "INSERT INTO patient (name, age, gender) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, p.getName());
+            stmt.setInt(2, p.getAge());
+            stmt.setString(3, p.getGender());
+            
+            int rowsAffected = stmt.executeUpdate();
+            
+            if (rowsAffected == 1) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    p.setId(generatedId);
+                } else {
+                    throw new SQLException("Failed to retrieve auto-generated ID for new patient.");
+                }
+            } else {
+                throw new SQLException("Failed to add new patient.");
+            }
+            
+            return p.getId(); // Return the ID of the newly added patient
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Return -1 to indicate failure
+        }
+    }
+    
+    public int addObservation(String observationText, LocalDate selectedDate, int patient) {
+        String sql = "INSERT INTO visit (observation, dateOfVist, patient) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, observationText);
+            stmt.setString(2, selectedDate.toString());
+            stmt.setInt(3, patient);
+            
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected == 1) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    // Return the ID of the newly added observation
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Failed to retrieve auto-generated ID for new observation.");
+                }
+            } else {
+                throw new SQLException("Failed to add new observation.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1; // Return -1 to indicate failure
+        }
+    }
+    
+    public Patient getAllObservations(int id,String Name, int age, String gender) {
+        List<String> observations = new ArrayList<>();
+        List<String> visitDates = new ArrayList<>();
+        String sql = "SELECT * FROM visit WHERE patient = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int observationId = rs.getInt("id");
+                    String observationText = rs.getString("observation");
+                    LocalDate dateOfVisit = LocalDate.parse(rs.getString("dateOfVist"));
+                    observations.add(observationText);
+                    visitDates.add(dateOfVisit.toString());
+                }
+            }
+            // Set observations and visitDates lists for the patient 
+            Patient patient = new Patient(id,Name,age,gender);
+            patient.setObservations(observations);
+            patient.setVisitDates(visitDates);
+            return patient;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new Patient(0,null,0,null);
+        }
+		
+    }
+
+    
 }
