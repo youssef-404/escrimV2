@@ -57,15 +57,27 @@ private ModelInterface model = Escrim.getInstance();
     public void getEscrim() {
     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
     	String sql ="SELECT * from Escrim where state=1";
-    	try (Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
+    	try{
+    		Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (!rs.isBeforeFirst() && rs.getRow() == 0) {
+		        System.out.println("The result set is empty.");
+		        model.setState(false);
+	    		model.setDate(null);
+	    		model.setDescription(null);
+	    		model.setCountry(null);
+		    } else {
+		    	
+		  
+    		while(rs.next()) {    		
     		model.setState(rs.getBoolean("state"));
     		model.setDate(LocalDate.parse(rs.getString("date"),formatter));
     		model.setDescription(rs.getString("description"));
     		model.setDuration(rs.getInt("duration"));
     		model.setConfigurationId(rs.getInt("configuration"));
     		model.setCountry(rs.getString("country"));
- 
+    		  }
+    		}
     		
     	}catch(SQLException e){
 			e.printStackTrace();
@@ -625,6 +637,73 @@ private ModelInterface model = Escrim.getInstance();
             pstmt.setInt(1, configId);
             pstmt.executeUpdate();
         }
+    }
+    
+    // deployement
+    public void deploy(LocalDate date,int duration,String description,Configuration configuration,String country) {
+    	String sql = "insert into Escrim(date,description,duration,state,configuration,country) values(?,?,?,?,?,?)";
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+    	try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, date.format(formatter));
+            stmt.setString(2, description);
+            stmt.setInt(3, duration);
+            stmt.setInt(4, 1);
+            stmt.setInt(5, configuration.getId());
+            stmt.setString(6, country);
+            stmt.executeUpdate();
+            
+            for(Parcel colis : configuration.getColis()) {
+            	String sqlDelete = "DELETE FROM stockGlobal WHERE parcel=?";
+            	String sqlInsert = "INSERT into stockDeploye(parcel)values(?)";
+            	PreparedStatement stmtDelete = connection.prepareStatement(sqlDelete);	
+            	PreparedStatement stmtInsert = connection.prepareStatement(sqlInsert);
+            	
+            	stmtInsert.setInt(1, colis.getId());
+            	stmtDelete.setInt(1, colis.getId());
+            	
+            	stmtInsert.executeUpdate();
+            	stmtDelete.executeUpdate();
+            	
+            	
+            }
+            
+           
+//            stmt.executeUpdate();
+        } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
+    
+    public void removeDeployement(Configuration selectedConfig) {
+    	String sql ="UPDATE Escrim SET state=0 where state=1";
+  		try {
+    	  Statement stmt = connection.createStatement();
+    	  stmt.executeUpdate(sql);
+				
+    	  for(Parcel colis : selectedConfig.getColis()) {
+        	String sqlDelete = "DELETE FROM stockDeploye WHERE parcel=?";
+        	String sqlInsert = "INSERT into stockGlobal(parcel)values(?)";
+        	PreparedStatement stmtDelete = connection.prepareStatement(sqlDelete);	
+        	PreparedStatement stmtInsert = connection.prepareStatement(sqlInsert);
+        	
+        	stmtInsert.setInt(1, colis.getId());
+        	stmtDelete.setInt(1, colis.getId());
+        	
+        	stmtInsert.executeUpdate();
+        	stmtDelete.executeUpdate();
+	        
+        	getEscrim();
+	        	
+	       }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    		
+    	
+    	
     }
 
 }

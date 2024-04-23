@@ -18,4 +18,5 @@ public interface ModelInterface {
 	public void setState(boolean state);
 	public String getCountry();
 	public void setCountry(String country);
+	public boolean getState();
 }
