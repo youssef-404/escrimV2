@@ -1,6 +1,7 @@
 package application.model;
 
-import java.text.BreakIterator;
+
+import java.time.LocalDate;
 
 
 
@@ -9,15 +10,63 @@ public class Escrim implements ModelInterface {
     private boolean State;
     private Inventory globalInventory;
     private Inventory localInventory;
+    private LocalDate date;
+    private int duration;
+    private String description;
+    private int configurationId;
+    private String country;
 
 
     private Escrim() {
-        State = false; // Initial state
         globalInventory = null;
         localInventory = null;
     }
+    
+    public LocalDate getDate() {
+		return date;
+	}
 
-    public Inventory getGlobalInventory() {
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getConfigurationId() {
+		return configurationId;
+	}
+
+	public void setConfigurationId(int configurationId) {
+		this.configurationId = configurationId;
+	}
+
+	public void setState(boolean state) {
+		State = state;
+	}
+
+    public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public Inventory getGlobalInventory() {
 		return globalInventory;
 	}
 

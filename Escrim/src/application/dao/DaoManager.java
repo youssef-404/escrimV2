@@ -19,7 +19,7 @@ public class DaoManager {
 
 	protected static DaoManager instance;
 	protected static final String URL = "jdbc:sqlite:Escrim/src/application/resources/db/db.db"; 
-  
+	private ModelInterface model = Escrim.getInstance();
 	protected Connection connection;
 
 	protected DaoManager(){
@@ -45,6 +45,25 @@ public class DaoManager {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    
+    public void getEscrim() {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+    	String sql ="SELECT * from Escrim where state=1";
+    	try (Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+    		model.setState(rs.getBoolean("state"));
+    		model.setDate(LocalDate.parse(rs.getString("date"),formatter));
+    		model.setDescription(rs.getString("description"));
+    		model.setDuration(rs.getInt("duration"));
+    		model.setConfigurationId(rs.getInt("configuration"));
+    		model.setCountry(rs.getString("country"));
+ 
+    		
+    	}catch(SQLException e){
 			e.printStackTrace();
 		}
     }
