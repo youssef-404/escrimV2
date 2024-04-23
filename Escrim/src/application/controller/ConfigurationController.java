@@ -91,8 +91,6 @@ public class ConfigurationController {
         populateSelectedParcelsListView();
         populateSelectedAircraftsListView();
         
-        updateConfig.setDisable(true);
-        deleteConfig.setDisable(true);
         
         tableViewConfig.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1 && tableViewConfig.getSelectionModel().getSelectedItem() != null) {
@@ -100,9 +98,19 @@ public class ConfigurationController {
                 if (selectedConfig.equals(lastSelectedConfiguration)) {
                     tableViewConfig.getSelectionModel().clearSelection();
                     clearForm();
+                    addConfig.setDisable(false);
+                    updateConfig.setDisable(true);
+                    deleteConfig.setDisable(true);
+                    List<Parcel> allParcels = daoManager.getAllParcels();
+                    parcelsListView.setItems(FXCollections.observableArrayList(allParcels));
+                    List<Plane> allAircrafts = daoManager.getAllAircraft();
+                    aircraftListView.setItems(FXCollections.observableArrayList(allAircrafts));
                     lastSelectedConfiguration = null;
                 } else {
                     lastSelectedConfiguration = selectedConfig;
+                    addConfig.setDisable(true);
+                    updateConfig.setDisable(false);
+                    deleteConfig.setDisable(false);
                     loadConfigData(selectedConfig);
                 }
             }
@@ -118,7 +126,8 @@ public class ConfigurationController {
 		
 	    ObservableList<Configuration> configurationList = FXCollections.observableArrayList(daoManager.getAllConfigurations());
 	    tableViewConfig.setItems(configurationList);
-	    
+	    tableViewConfig.refresh();
+
 	}
 	
 	private void populateParcelsListView() {
@@ -163,14 +172,14 @@ public class ConfigurationController {
 	    if (!validateInput()) {
 	        return; // Stop the addition process if validation fails
 	    }
-
+	    
 	    try {
 	        Configuration newConfig = new Configuration();
 	        newConfig.setName(nameTextField.getText().trim());
 	        newConfig.setCatastrophe(disasterTextField.getText().trim());
 
-	        List<Parcel> selectedParcels = new ArrayList<>(parcelsListView.getSelectionModel().getSelectedItems());
-	        List<Plane> selectedPlanes = new ArrayList<>(aircraftListView.getSelectionModel().getSelectedItems());
+	        List<Parcel> selectedParcels = new ArrayList<>(selectedParcelsListView.getItems());
+	        List<Plane> selectedPlanes = new ArrayList<>(selectedAircraftsListView.getItems());
 
 	        daoManager.addConfiguration(newConfig, selectedParcels, selectedPlanes);
 
@@ -252,8 +261,6 @@ public class ConfigurationController {
             List<Plane> allAircrafts = daoManager.getAllAircraft();
             allAircrafts.removeAll(selectedAircraftsList); 
             aircraftListView.setItems(FXCollections.observableArrayList(allAircrafts));
-            
-            addConfig.setDisable(true);
 
         }
     }
@@ -338,12 +345,16 @@ public class ConfigurationController {
         selectedConfig.setCatastrophe(disasterTextField.getText().trim());
         
         List<Parcel> selectedParcels = new ArrayList<>(selectedParcelsListView.getItems());
-        List<Plane> selectedPlanes = new ArrayList<>(aircraftListView.getSelectionModel().getSelectedItems());
+        List<Plane> selectedPlanes = new ArrayList<>(selectedAircraftsListView.getItems());
 
         try {
             daoManager.updateConfiguration(selectedConfig, selectedParcels, selectedPlanes);
             showSuccessDialog("Success", "Configuration updated successfully.");
-            loadConfigurations(); 
+            clearForm();
+            deleteConfig.setDisable(true);
+            updateConfig.setDisable(true);
+            addConfig.setDisable(false);
+            loadConfigurations();
         } catch (Exception e) {
             e.printStackTrace();
             showErrorDialog("Update Error", "Failed to update the configuration: " + e.getMessage());
@@ -365,7 +376,11 @@ public class ConfigurationController {
             try {
                 daoManager.deleteConfiguration(selectedConfig.getId());
                 showSuccessDialog("Success", "Configuration deleted successfully.");
-                loadConfigurations(); 
+                clearForm();
+                deleteConfig.setDisable(true);
+                updateConfig.setDisable(true);
+                addConfig.setDisable(false);
+                loadConfigurations();
             } catch (Exception e) {
                 showErrorDialog("Deletion Error", "Failed to delete the configuration: " + e.getMessage());
             }
