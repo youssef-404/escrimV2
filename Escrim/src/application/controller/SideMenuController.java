@@ -96,6 +96,8 @@ public class SideMenuController {
 			notDeployed.setVisible(true);
 		}
 	}
+	
+	
 
 }
 

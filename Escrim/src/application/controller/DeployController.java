@@ -95,6 +95,8 @@ public class DeployController {
     		deployButton.setDisable(true);
     		removeButton.setDisable(false);
     		
+    		
+    		
     	});
     	
     	removeButton.setOnMouseClicked(e->{
