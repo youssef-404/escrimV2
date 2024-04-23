@@ -2,6 +2,7 @@ package application.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Configuration {
     private int id;
@@ -58,4 +59,22 @@ public class Configuration {
     public void setColis(List<Parcel> colis) {
         this.colis = colis;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj)
+	        return true;
+	    if (obj == null || getClass() != obj.getClass())
+	        return false;
+	    Configuration other = (Configuration) obj;
+	    return id == other.id;
+	}
+    
+    
+    
 }
