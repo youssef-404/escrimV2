@@ -60,34 +60,18 @@
 
 			</columns>
 		</TableView>
-      <Button fx:id="addObservation" layoutX="355.0" layoutY="427.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="124.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add">
-         <graphic>
-            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="-4.0">
-               <image>
-                  <Image url="@../resources/images/download.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
+      <Button fx:id="addObservation" layoutX="355.0" layoutY="427.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="124.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add" />
       <TextField fx:id="name" layoutX="355.0" layoutY="188.0" promptText="Name" />
       <TextField fx:id="age" layoutX="552.0" layoutY="188.0" promptText="Age" />
       <TextField fx:id="gender" layoutX="355.0" layoutY="257.0" promptText="Genre" />
       <TextField fx:id="observation" layoutX="552.0" layoutY="360.0" promptText="Observation" />
-      <Button fx:id="addPatient" layoutX="570.0" layoutY="254.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add">
-         <graphic>
-            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="-4.0">
-               <image>
-                  <Image url="@../resources/images/download.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Text layoutX="355.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add User" wrappingWidth="88.23828125000006">
+      <Button fx:id="addPatient" layoutX="570.0" layoutY="254.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add" />
+      <Text layoutX="355.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Patient" wrappingWidth="88.23828125000006">
          <font>
             <Font name="Google Sans Regular" size="14.0" />
          </font>
       </Text>
-      <Text layoutX="355.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Observation" wrappingWidth="113.6201171875">
+      <Text layoutX="355.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Observation" wrappingWidth="113.6201171875">
          <font>
             <Font name="Google Sans Regular" size="14.0" />
          </font>

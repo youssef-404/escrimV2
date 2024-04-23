@@ -35,7 +35,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
 								</Button>
-								<Button fx:id="medicamentButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Medicine">
+								<Button fx:id="medicamentButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Medicines">
 									<graphic>
 										<ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
 											<image>
@@ -47,7 +47,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
 								</Button>
-								<Button fx:id="medicalSupplyButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Medical Supply">
+								<Button fx:id="medicalSupplyButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Medical Supplies">
 									<graphic>
 										<ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
 											<image>
@@ -71,7 +71,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-								<Button fx:id="statisticsButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Statistics">
+								<Button fx:id="hospitalizeButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Hospitalize">
 									<graphic>
 										<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateY="-2.0">
 											<image>
