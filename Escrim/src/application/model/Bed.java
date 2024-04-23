@@ -6,5 +6,16 @@ public class Bed extends Item {
 
     public Bed(int id, int quantity) {
         super(id, quantity);
+        this.inUse = false;
     }
+
+	public Boolean getInUse() {
+		return inUse;
+	}
+
+	public void setInUse(Boolean inUse) {
+		this.inUse = inUse;
+	}
+    
+    
 }

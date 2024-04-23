@@ -21,6 +21,8 @@ public class SideMenuControllerProfile2 {
     private Button medicalSupplyButton;
 	@FXML
     private Button patientButton;
+	@FXML
+    private Button hospitalizeButton;
 
 
 
@@ -34,6 +36,7 @@ public class SideMenuControllerProfile2 {
         medicamentButton.setOnAction(event -> switchPane("/application/view/medicaments.fxml"));
         medicalSupplyButton.setOnAction(event -> switchPane("/application/view/medicalSupply.fxml"));
         patientButton.setOnAction(event -> switchPane("/application/view/patientProfile2.fxml"));
+        hospitalizeButton.setOnAction(event -> switchPane("/application/view/hospitalize.fxml"));
     }
 
     private void switchPane(String fxmlFile) {

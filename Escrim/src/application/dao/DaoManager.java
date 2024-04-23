@@ -605,5 +605,131 @@ public class DaoManager {
             pstmt.executeUpdate();
         }
     }
+    
+    // Hospitaliser DAO
+    
+    public List<Bed> getAllDeployedBeds() {
+        List<Bed> beds = new ArrayList<>();
+        String sql = "SELECT b.id, b.inUse, b.parcel FROM bed b JOIN parcel p ON b.parcel = p.id JOIN stockDeploye sd ON p.id = sd.parcel WHERE b.inUse = 0";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                Bed bed = new Bed(rs.getInt("id"),1);
+                beds.add(bed);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return beds;
+    }
+    
+    public void toggleBedInUseState(int bedId) {
+        String sql = "UPDATE bed SET inUse = CASE WHEN inUse = 0 THEN 1 ELSE 0 END WHERE id = ?";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, bedId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void addHospitalizedEntry(int patientId, String name, int bedId, String entryDate, int expectedStay) {
+        String sql = "INSERT INTO hospitalized (patientId, name, bedId, entryDate, expectedStay) VALUES (?, ?, ?, ?, ?)";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, patientId);
+            stmt.setString(2, name);
+            stmt.setInt(3, bedId);
+            stmt.setString(4, entryDate);
+            stmt.setInt(5, expectedStay);
+            
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public List<HospitalizedPatient> getAllHospitalized() {
+        List<HospitalizedPatient> hospitalizedPatients = new ArrayList<>();
+        String sql = "SELECT * FROM hospitalized";
+
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                HospitalizedPatient patient = new HospitalizedPatient(
+                    rs.getInt("id"),
+                    rs.getInt("patientId"),
+                    rs.getString("name"),
+                    rs.getInt("bedId"),
+                    LocalDate.parse(rs.getString("entryDate")),
+                    rs.getInt("expectedStay")
+                );
+                hospitalizedPatients.add(patient);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hospitalizedPatients;
+    }
+
+    public boolean deleteHospitalizedEntry(String patientName, int bedId, LocalDate entryDate, int expectedStay) {
+        String sql = "DELETE FROM hospitalized WHERE name = ? AND bedId = ? AND entryDate = ? AND expectedStay = ?";
+        
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Set the parameters
+            pstmt.setString(1, patientName);
+            pstmt.setInt(2, bedId);
+            pstmt.setString(3, entryDate.toString()); // Assuming entryDate is stored as a string in the database
+            pstmt.setInt(4, expectedStay);
+            
+            // Execute the deletion
+            int affectedRows = pstmt.executeUpdate();
+            
+            // Check if any rows were affected
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public int getUsedBedsNumber() {
+        String sql = "SELECT COUNT(*) AS usedBeds FROM bed WHERE inUse = 1";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            if (rs.next()) {
+                return rs.getInt("usedBeds");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        // Return 0 if no data is found or an exception occurs
+        return 0;
+    }
+
+    public int getUnusedBedsNumber() {
+        String sql = "SELECT COUNT(*) AS unusedBeds FROM bed WHERE inUse = 0";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            if (rs.next()) {
+                return rs.getInt("unusedBeds");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        // Return 0 if no data is found or an exception occurs
+        return 0;
+    }
+
 
 }
