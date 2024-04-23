@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -42,9 +43,9 @@ public class DeployController {
     	this.model = Escrim.getInstance();
     	durationInputRestrection();
     	daoManager.getEscrim();
-    	initilizeEscrim();
+    	initilizeEscrim(); 	
     	
-    	
+    	System.out.println("i got called again");
     }
     
     
@@ -80,20 +81,26 @@ public class DeployController {
     	configuration.setValue(selectedConfig.getId() + "-" + selectedConfig.getName());
     	deployButton.setDisable(true);
     	removeButton.setDisable(false);
+    	disableFields();
 
     	}
     	
     	deployButton.setOnMouseClicked(e->{
     		int selectedIndex = configuration.getSelectionModel().getSelectedIndex();
-    		Configuration selectedConfig = allConfig.get(selectedIndex);
     		String countryValue = country.getText();
-    		int durationValue =Integer.parseInt(duration.getText()) ;
     		LocalDate dateValue = date.getValue();
     		String descriptionValue = description.getText();
-    		
-    		this.daoManager.deploy(dateValue, durationValue, descriptionValue, selectedConfig, countryValue);
-    		deployButton.setDisable(true);
-    		removeButton.setDisable(false);
+    		if(validateInput(countryValue,descriptionValue,dateValue,selectedIndex,duration.getText())) {
+    			int durationValue =Integer.parseInt(duration.getText()) ;
+    			Configuration selectedConfig = allConfig.get(selectedIndex);
+    			this.daoManager.deploy(dateValue, durationValue, descriptionValue, selectedConfig, countryValue);
+    			
+    			showSuccessDialog("Deployed","Escrim deployed successfully.");
+    			deployButton.setDisable(true);
+    			removeButton.setDisable(false);
+    			daoManager.getEscrim();
+    			disableFields();
+    		}
     		
     		
     		
@@ -101,20 +108,85 @@ public class DeployController {
     	
     	removeButton.setOnMouseClicked(e->{
         	Configuration selectedConfig = allConfig.stream().filter(conf -> conf.getId()== this.model.getConfigurationId()).findFirst().orElse(null);
-    		this.daoManager.removeDeployement(selectedConfig);
-    		country.clear();
-    		description.clear();
-    		duration.clear();
-    		date.setValue(null);
-    		configuration.getSelectionModel().clearSelection();
-    		deployButton.setDisable(false);
-    		removeButton.setDisable(true);
+        	if (selectedConfig != null) {
+        	    daoManager.removeDeployement(selectedConfig);
+        	    daoManager.getEscrim();
+        	} else {
+        	    System.out.println("selectedConfig is null, cannot remove deployment");
+        	}
+    
+    		clearForm();
+    		
     		
     		
     	});
     	   
     	
     }
+    
+    private void disableFields() {
+    	country.setEditable(false);
+    	description.setEditable(false);
+    	duration.setEditable(false);
+    	date.setEditable(false);
+    	configuration.setDisable(true);
+    }
+    
+    
+    private void clearForm() {
+    	country.clear();
+    	description.clear();
+    	duration.clear();
+    	date.setValue(null);
+		configuration.getSelectionModel().clearSelection();
+		deployButton.setDisable(false);
+		removeButton.setDisable(true);
+		country.setEditable(true);
+    	description.setEditable(true);
+    	duration.setEditable(true);
+    	date.setEditable(true);
+    	configuration.setDisable(true);
+    }
+    
+    
+    
+    
+    private boolean validateInput(String country,String description,LocalDate date,int selectedConfiguration,String duration) {
+    
+        if (country.isEmpty() || description.isEmpty() || duration.isEmpty() ) {
+            showErrorDialog("Input Error", "Please fill in all text fields.");
+            return false;
+        }
+
+        if (selectedConfiguration == -1) {
+            showErrorDialog("Selection Error", "Please select a configuration");
+            return false;
+        }
+
+        if (date == null) {
+            showErrorDialog("Picker Error", "Please select a date.");
+            return false;
+        }
+
+        return true;
+    }
+    
+    private void showErrorDialog(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR); 
+        alert.setTitle(title);                         
+        alert.setHeaderText(null);                 
+        alert.setContentText(content);                
+        alert.showAndWait();                           
+    }
+    
+    private void showSuccessDialog(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION); 
+        alert.setTitle(title);                         
+        alert.setHeaderText(null);                 
+        alert.setContentText(content);                
+        alert.showAndWait();                           
+    }
+
     
     
     

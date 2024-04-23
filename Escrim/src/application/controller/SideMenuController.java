@@ -46,7 +46,9 @@ public class SideMenuController {
         setupButtonActions();
         setupLogoutButtonAction();
         inventoryButton.fire();
-        handleEscrimState(escrim);
+//        handleEscrimState(escrim);
+        deployed.visibleProperty().bind(escrim.State());
+        notDeployed.visibleProperty().bind(escrim.State().not());
     }
 
     private void setupButtonActions() {
@@ -87,15 +89,15 @@ public class SideMenuController {
         }
 	}
 	
-	private void handleEscrimState(Escrim escrim) {
-		if (escrim.isState()) {
-			deployed.setVisible(true);
-			notDeployed.setVisible(false);
-		} else {
-			deployed.setVisible(false);
-			notDeployed.setVisible(true);
-		}
-	}
+//	private void handleEscrimState(Escrim escrim) {
+//		if (escrim.isState()) {
+//			deployed.setVisible(true);
+//			notDeployed.setVisible(false);
+//		} else {
+//			deployed.setVisible(false);
+//			notDeployed.setVisible(true);
+//		}
+//	}
 	
 	
 

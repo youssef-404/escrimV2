@@ -69,6 +69,7 @@ public class TableViewController {
     public void initialize() {
     	this.daoManger = DaoManager.getInstance();
     	this.model = Escrim.getInstance();
+    	daoManger.getEscrim();
     	
     	try {
 			this.model.setGlobalInventory(this.daoManger.getInventory("Stock Global"));

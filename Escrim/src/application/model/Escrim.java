@@ -3,11 +3,14 @@ package application.model;
 
 import java.time.LocalDate;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 
 
 public class Escrim implements ModelInterface {
     private static Escrim instance;
-    private boolean State;
+//    private boolean State;
     private Inventory globalInventory;
     private Inventory localInventory;
     private LocalDate date;
@@ -15,7 +18,19 @@ public class Escrim implements ModelInterface {
     private String description;
     private int configurationId;
     private String country;
+    
+    private BooleanProperty State = new SimpleBooleanProperty(false);
+    public boolean getState() {
+    		return State.get();
+    	}
 
+    	public void setState(boolean state) {
+    		this.State.set(state);
+    	}
+
+    public BooleanProperty State() {
+            return State;
+    }
 
     private Escrim() {
         globalInventory = null;
@@ -54,13 +69,13 @@ public class Escrim implements ModelInterface {
 		this.configurationId = configurationId;
 	}
 	
-	public boolean getState() {
-		return this.State;
-	}
-
-	public void setState(boolean state) {
-		this.State = state;
-	}
+//	public boolean getState() {
+//		return this.State;
+//	}
+//
+//	public void setState(boolean state) {
+//		this.State = state;
+//	}
 
     public String getCountry() {
 		return country;
@@ -96,9 +111,9 @@ public class Escrim implements ModelInterface {
         return instance;
     }
 
-    public boolean isState() {
-        return State;
-    }
+//    public boolean isState() {
+//        return State;
+//    }
 
 
 
