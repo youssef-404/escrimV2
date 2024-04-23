@@ -39,7 +39,7 @@
 									<graphic>
 										<ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
 											<image>
-												<Image url="@../resources/images/plane.png" />
+												<Image url="@../resources/images/drugs.png" />
 											</image>
 										</ImageView>
 									</graphic>
@@ -47,11 +47,11 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
 								</Button>
-								<Button fx:id="medicalSupplyButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Medical Supplies">
+								<Button fx:id="medicalSupplyButton" alignment="CENTER_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Medical Supplies">
 									<graphic>
-										<ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+										<ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
 											<image>
-												<Image url="@../resources/images/gear.png" />
+												<Image url="@../resources/images/syringe.png" />
 											</image>
 										</ImageView>
 									</graphic>
@@ -61,9 +61,9 @@
 								</Button>
                         <Button fx:id="patientButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Patients">
                            <graphic>
-                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="5.0">
                                  <image>
-                                    <Image url="@../resources/images/gear.png" />
+                                    <Image url="@../resources/images/patient.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -73,9 +73,9 @@
                         </Button>
 								<Button fx:id="hospitalizeButton" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" styleClass="menu-button" stylesheets="@../resources/css/application.css" text="Hospitalize">
 									<graphic>
-										<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateY="-2.0">
+										<ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="3.0" translateY="1.0">
 											<image>
-												<Image url="@../resources/images/statistics.png" />
+												<Image url="@../resources/images/health-care.png" />
 											</image>
 										</ImageView>
 									</graphic>

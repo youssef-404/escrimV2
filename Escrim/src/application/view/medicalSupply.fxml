@@ -13,7 +13,7 @@
 
 <Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MedicalSupplyController">
 	<children>
-		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medical Supply">
+		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medical Supplies">
 			<font>
 				<Font name="Google Sans Regular" size="14.0" />
 			</font>
@@ -36,13 +36,13 @@
 			</children>
 		</HBox>
 
-		<TableView fx:id="tableView" layoutX="17.0" layoutY="136.0" prefHeight="385.0" prefWidth="733.0" stylesheets="@../resources/css/application.css">
+		<TableView fx:id="tableView" layoutX="112.0" layoutY="132.0" prefHeight="385.0" prefWidth="537.0" stylesheets="@../resources/css/application.css">
 			<columns>
-				<TableColumn fx:id="utilityId" prefWidth="57.60000991821289" resizable="false" text="Id" />
-				<TableColumn fx:id="designation" prefWidth="91.99996948242188" resizable="false" text="Designation" />
-				<TableColumn fx:id="utilityDlu" prefWidth="81.5999755859375" resizable="false" text="DLU" />
-				<TableColumn fx:id="utilityQuantity" prefWidth="88.0" resizable="false" text="Quantity" />
-				<TableColumn fx:id="utilityLot" resizable="false" text="Lot" />
+				<TableColumn fx:id="utilityId" prefWidth="75.20001220703125" resizable="false" text="Id" />
+				<TableColumn fx:id="designation" prefWidth="134.3999481201172" resizable="false" text="Designation" />
+				<TableColumn fx:id="utilityDlu" prefWidth="116.79998779296875" resizable="false" text="DLU" />
+				<TableColumn fx:id="utilityQuantity" prefWidth="103.20001220703125" resizable="false" text="Quantity" />
+				<TableColumn fx:id="utilityLot" prefWidth="105.0" resizable="false" text="Lot" />
 
 			</columns>
 		</TableView>

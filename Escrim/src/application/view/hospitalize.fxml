@@ -22,31 +22,24 @@
 			</font>
 		</Text>
 		<Separator layoutY="58.0" prefHeight="0.0" prefWidth="761.0" />
-      <Button layoutX="636.0" layoutY="85.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Download">
-         <graphic>
-            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="-4.0">
-               <image>
-                  <Image url="@../resources/images/download.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
       <TableView fx:id="tableViewPatients" layoutX="22.0" layoutY="129.0" prefHeight="380.0" prefWidth="313.0" stylesheets="@../resources/css/application.css">
          <columns>
             <TableColumn fx:id="idCell" prefWidth="74.39999675750732" resizable="false" text="Id Patient" />
-            <TableColumn fx:id="nameCell" prefWidth="104.00003051757812" resizable="false" text="Name" />
-            <TableColumn fx:id="ageCell" prefWidth="48.79998779296875" resizable="false" text="Age" />
-            <TableColumn fx:id="genderCell" prefWidth="83.99998474121094" resizable="false" text="Genre" />
-            <TableColumn fx:id="nameCell1" prefWidth="104.00003051757812" resizable="false" text="Name" />
+            <TableColumn fx:id="nameCell" prefWidth="96.80001831054688" resizable="false" text="Name" />
+            <TableColumn fx:id="ageCell" prefWidth="77.59996032714844" resizable="false" text="Age" />
+            <TableColumn fx:id="genderCell" prefWidth="65.59991455078125" resizable="false" text="Gender" />
          </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
-      <Button fx:id="hospitalizeButton" layoutX="625.0" layoutY="482.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add" />
+      <Button fx:id="hospitalizeButton" layoutX="628.0" layoutY="481.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Admit" />
       <Text layoutX="365.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospitalize" wrappingWidth="88.23828125000006">
          <font>
             <Font name="Google Sans Regular" size="14.0" />
          </font>
       </Text>
-      <HBox layoutX="34.0" layoutY="85.0" prefHeight="3.0" prefWidth="200.0" spacing="12.0" styleClass="search-bar" stylesheets="@../resources/css/application.css">
+      <HBox layoutX="24.0" layoutY="75.0" prefHeight="3.0" prefWidth="200.0" spacing="12.0" styleClass="search-bar" stylesheets="@../resources/css/application.css">
          <children>
             <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="10.0" translateY="7.0">
                <image>
@@ -60,25 +53,28 @@
             </TextField>
          </children>
       </HBox>
-      <Button fx:id="finishButton" layoutX="485.0" layoutY="482.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #FF0000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Finish" />
-      <ComboBox fx:id="bedComboBox" layoutX="550.0" layoutY="230.0" prefWidth="150.0" promptText="Bed" />
-      <DatePicker fx:id="entryDatePicker" layoutX="548.0" layoutY="177.0" prefHeight="25.0" prefWidth="150.0" promptText="Entry Date" />
+      <Button fx:id="finishButton" layoutX="488.0" layoutY="481.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #FF0000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Discharge" />
+      <ComboBox fx:id="bedComboBox" layoutX="548.0" layoutY="231.0" prefWidth="150.0" promptText="Bed" />
+      <DatePicker fx:id="entryDatePicker" layoutX="548.0" layoutY="178.0" prefHeight="25.0" prefWidth="150.0" promptText="Entry Date" />
       <TableView fx:id="tableViewHospitalized" layoutX="342.0" layoutY="284.0" prefHeight="179.0" prefWidth="399.0" stylesheets="@../resources/css/application.css">
          <columns>
-            <TableColumn fx:id="idH" prefWidth="62.4000244140625" resizable="false" text="Id Patient" />
-            <TableColumn fx:id="nameH" prefWidth="96.0" resizable="false" text="Name" />
-            <TableColumn fx:id="bedH" prefWidth="51.199951171875" resizable="false" text="Bed" />
-            <TableColumn fx:id="entryDateH" prefWidth="86.40008544921875" resizable="false" text="Entry Date" />
-            <TableColumn fx:id="expectedStayH" prefWidth="100.60003662109375" resizable="false" text="Excpected Stay" />
+            <TableColumn fx:id="idH" prefWidth="61.5999755859375" resizable="false" text="Id Patient" />
+            <TableColumn fx:id="nameH" prefWidth="97.60003662109375" resizable="false" text="Name" />
+            <TableColumn fx:id="bedH" prefWidth="52.800048828125" resizable="false" text="Bed" />
+            <TableColumn fx:id="entryDateH" prefWidth="88.7999267578125" resizable="false" text="Entry Date" />
+            <TableColumn fx:id="expectedStayH" prefWidth="97.5999755859375" resizable="false" text="Excpected Stay" />
          </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
-      <TextField fx:id="expectedStayField" layoutX="365.0" layoutY="230.0" prefHeight="25.0" prefWidth="150.0" promptText="Expected Stay (days)" />
-      <HBox layoutX="365.0" layoutY="177.0" prefHeight="25.0" prefWidth="150.0">
+      <TextField fx:id="expectedStayField" layoutX="365.0" layoutY="231.0" prefHeight="25.0" prefWidth="150.0" promptText="Expected Stay (days)" />
+      <HBox layoutX="365.0" layoutY="178.0" prefHeight="25.0" prefWidth="150.0">
          <children>
             <TextField fx:id="patientText" editable="false" prefHeight="25.0" prefWidth="150.0" text="-- Select a Patient --" />
          </children>
       </HBox>
-      <Button fx:id="unusedBeds" layoutX="365.0" layoutY="85.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #4682B4;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="0 Unused Beds" />
-      <Button fx:id="usedBeds" layoutX="503.0" layoutY="85.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #4682B4;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="0 Used Beds" />
+      <Button fx:id="unusedBeds" layoutX="488.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #4689B4;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="0 Unused Beds" />
+      <Button fx:id="usedBeds" layoutX="626.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #4672B4;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="0 Used Beds" />
 	</children>
 </Pane>

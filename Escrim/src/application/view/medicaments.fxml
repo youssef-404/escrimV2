@@ -13,7 +13,7 @@
 
 <Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MedicamentController">
 	<children>
-		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicaments">
+		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medecines">
 			<font>
 				<Font name="Google Sans Regular" size="14.0" />
 			</font>
@@ -36,18 +36,21 @@
 			</children>
 		</HBox>
 
-		<TableView fx:id="tableView" layoutX="17.0" layoutY="136.0" prefHeight="385.0" prefWidth="733.0" stylesheets="@../resources/css/application.css">
+		<TableView fx:id="tableView" layoutX="59.0" layoutY="131.0" prefHeight="385.0" prefWidth="643.0" stylesheets="@../resources/css/application.css">
 			<columns>
-				<TableColumn fx:id="medId" prefWidth="57.60000991821289" resizable="false" text="Med_Id" />
-				<TableColumn fx:id="medProduit" prefWidth="91.99996948242188" resizable="false" text="Produit" />
-				<TableColumn fx:id="medDci" prefWidth="74.4000244140625" resizable="false" text="DCI" />
-				<TableColumn fx:id="medDosage" prefWidth="87.19999694824219" resizable="false" text="Dosage" />
-				<TableColumn fx:id="medDlu" prefWidth="81.5999755859375" resizable="false" text="DLU" />
+				<TableColumn fx:id="medId" prefWidth="58.0" resizable="false" text="Med_Id" />
+				<TableColumn fx:id="medProduit" prefWidth="92.0" resizable="false" text="Product" />
+				<TableColumn fx:id="medDci" prefWidth="75.0" resizable="false" text="DCI" />
+				<TableColumn fx:id="medDosage" prefWidth="88.0" resizable="false" text="Dosage" />
+				<TableColumn fx:id="medDlu" prefWidth="82.0" resizable="false" text="DLU" />
 				<TableColumn fx:id="medQuantity" prefWidth="88.0" resizable="false" text="Quantity" />
 				<TableColumn fx:id="medClass" resizable="false" text="Med_Class" />
 				<TableColumn fx:id="medLot" resizable="false" text="Lot" />
 
 			</columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
 		</TableView>
 	</children>
 </Pane>
