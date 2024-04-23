@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -21,20 +22,20 @@
 			</font>
 		</Text>
 		<Separator layoutY="58.0" prefHeight="0.0" prefWidth="761.0" />
-      <VBox layoutX="30.0" layoutY="83.0" prefHeight="431.0" prefWidth="702.0">
+      <VBox layoutX="101.0" layoutY="95.0" prefHeight="394.0" prefWidth="559.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="82.0" prefWidth="559.0" spacing="10.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="674.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="320.0">
                      <children>
                         <Label prefWidth="90.0" text="Country : " />
-                        <TextField fx:id="country" />
+                        <TextField fx:id="country" prefHeight="26.0" prefWidth="156.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="674.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="240.0">
                      <children>
-                        <Label prefWidth="90.0" text="Duration : " />
-                        <TextField fx:id="duration" />
+                        <Label prefHeight="18.0" prefWidth="62.0" text="Duration : " />
+                        <TextField fx:id="duration" prefHeight="26.0" prefWidth="164.0" />
                      </children>
                   </HBox>
                </children>
@@ -47,24 +48,30 @@
                         <ChoiceBox fx:id="configuration" prefWidth="150.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="674.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="597.0">
                      <children>
-                        <Label prefWidth="90.0" text="Date : " />
-                        <DatePicker fx:id="date" />
+                        <Label prefHeight="18.0" prefWidth="62.0" text="Date : " />
+                        <DatePicker fx:id="date" prefHeight="26.0" prefWidth="167.0" />
                      </children>
                   </HBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="146.0" prefWidth="702.0">
+            <HBox prefHeight="146.0" prefWidth="100.0">
                <children>
-                  <Label prefWidth="90.0" text="Description : " />
-                  <TextArea fx:id="description" prefHeight="146.0" prefWidth="434.0" />
+                  <Label prefWidth="90.0" text="Description : " translateY="5.0" />
+                  <TextArea fx:id="description" prefHeight="146.0" prefWidth="468.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="83.0" prefWidth="702.0">
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="63.0" prefWidth="559.0" spacing="20.0">
                <children>
-                  <Button fx:id="removeButton" mnemonicParsing="false" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Remove" />
-                  <Button fx:id="deployButton" mnemonicParsing="false" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Deploy" />
+                  <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="62.0" style="-fx-background-color: #FF0000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="End">
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor></Button>
+                  <Button fx:id="deployButton" mnemonicParsing="false" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Deploy">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </HBox>
          </children>

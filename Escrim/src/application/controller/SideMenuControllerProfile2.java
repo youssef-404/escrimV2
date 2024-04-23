@@ -1,11 +1,15 @@
 package application.controller;
 
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class SideMenuControllerProfile2 {
 
@@ -23,12 +27,14 @@ public class SideMenuControllerProfile2 {
     private Button patientButton;
 	@FXML
     private Button hospitalizeButton;
-
+	@FXML
+	private Button logoutButton;
 
 
     public void initialize() {
         setupButtonActions();
         inventoryButton.fire();
+        setupLogoutButtonAction();
     }
 
     private void setupButtonActions() {
@@ -48,7 +54,28 @@ public class SideMenuControllerProfile2 {
         }
     }
     
+    
+    private void setupLogoutButtonAction() {
+    	logoutButton.setOnAction(event -> logout());
+    }
+	
+	private void logout() {
+		try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/view/login.fxml"));
+	        Scene scene = new Scene(fxmlLoader.load());
+	        
+	        Stage newStage = new Stage();
+	        newStage.setScene(scene);
 
+	        Stage oldStage = (Stage) logoutButton.getScene().getWindow();
+	        oldStage.close();
+            
+	        newStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
 }
 

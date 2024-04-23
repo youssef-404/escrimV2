@@ -19,7 +19,7 @@
 
 <Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.PatientController">
 	<children>
-		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient">
+		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patients">
 			<font>
 				<Font name="Google Sans Regular" size="14.0" />
 			</font>
@@ -41,42 +41,36 @@
 				</TextField>
 			</children>
 		</HBox>
-		<Button layoutX="626.0" layoutY="75.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Download">
-			<graphic>
-				<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" translateX="-4.0">
-					<image>
-						<Image url="@../resources/images/download.png" />
-					</image>
-				</ImageView>
-			</graphic>
-		</Button>
 
 		<TableView fx:id="tableViewPatients" layoutX="12.0" layoutY="119.0" prefHeight="402.0" prefWidth="313.0" stylesheets="@../resources/css/application.css">
 			<columns>
 				<TableColumn fx:id="idCell" prefWidth="74.39999675750732" resizable="false" text="Id Patient" />
 				<TableColumn fx:id="nameCell" prefWidth="104.00003051757812" resizable="false" text="Name" />
 				<TableColumn fx:id="ageCell" prefWidth="48.79998779296875" resizable="false" text="Age" />
-				<TableColumn fx:id="genderCell" prefWidth="83.99998474121094" resizable="false" text="Genre" />
+				<TableColumn fx:id="genderCell" prefWidth="83.99998474121094" resizable="false" text="Gender" />
 
 			</columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
 		</TableView>
-      <Button fx:id="addObservation" layoutX="355.0" layoutY="427.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="124.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add" />
-      <TextField fx:id="name" layoutX="355.0" layoutY="188.0" promptText="Name" />
-      <TextField fx:id="age" layoutX="552.0" layoutY="188.0" promptText="Age" />
-      <TextField fx:id="gender" layoutX="355.0" layoutY="257.0" promptText="Genre" />
-      <TextField fx:id="observation" layoutX="552.0" layoutY="360.0" promptText="Observation" />
-      <Button fx:id="addPatient" layoutX="570.0" layoutY="254.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="113.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add" />
-      <Text layoutX="355.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Patient" wrappingWidth="88.23828125000006">
+      <Button fx:id="addObservation" layoutX="617.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="95.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add" />
+      <TextField fx:id="name" layoutX="366.0" layoutY="188.0" promptText="Name" />
+      <TextField fx:id="age" layoutX="563.0" layoutY="188.0" promptText="Age" />
+      <TextField fx:id="gender" layoutX="366.0" layoutY="257.0" promptText="Gender" />
+      <TextField fx:id="observation" layoutX="563.0" layoutY="360.0" promptText="Observation" />
+      <Button fx:id="addPatient" layoutX="617.0" layoutY="254.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="95.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add" />
+      <Text layoutX="366.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Patient" wrappingWidth="88.23828125000006">
          <font>
             <Font name="Google Sans Regular" size="14.0" />
          </font>
       </Text>
-      <Text layoutX="355.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Observation" wrappingWidth="113.6201171875">
+      <Text layoutX="366.0" layoutY="335.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Observation" wrappingWidth="113.6201171875">
          <font>
             <Font name="Google Sans Regular" size="14.0" />
          </font>
       </Text>
-      <DatePicker fx:id="dateVisite" layoutX="354.0" layoutY="360.0" prefHeight="25.0" prefWidth="149.0" promptText="Visit Date" />
+      <DatePicker fx:id="dateVisite" layoutX="365.0" layoutY="360.0" prefHeight="25.0" prefWidth="149.0" promptText="Visit Date" />
       <AnchorPane fx:id="popup" layoutX="10.0" layoutY="10.0" prefHeight="538.0" prefWidth="709.0" visible="false">
          <children>
             <Pane fx:id="popupContent" layoutX="80.0" layoutY="107.0" prefHeight="371.0" prefWidth="550.0" styleClass="popup-pane" stylesheets="@../resources/css/application.css" AnchorPane.bottomAnchor="60.19999999999999" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="79.20000000000005" AnchorPane.topAnchor="107.0">

@@ -88,11 +88,11 @@
                   <ListView fx:id="selectedAircraftsListView" prefHeight="116.0" prefWidth="142.0" translateX="55.0" />
                </children>
             </HBox>
-            <Button fx:id="addConfig" layoutX="369.0" layoutY="388.0" mnemonicParsing="false" onAction="#handleAddAction" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add">
+            <Button fx:id="addConfig" layoutX="388.0" layoutY="388.0" mnemonicParsing="false" onAction="#handleAddAction" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: #008000;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Add">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="updateConfig" disable="true" layoutX="284.0" layoutY="388.0" mnemonicParsing="false" onAction="#handleUpdateAction" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: #4682B4;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Update">
+            <Button fx:id="updateConfig" disable="true" layoutX="303.0" layoutY="388.0" mnemonicParsing="false" onAction="#handleUpdateAction" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: #4682B4;" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Update">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
