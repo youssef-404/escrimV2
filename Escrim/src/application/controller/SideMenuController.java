@@ -1,13 +1,21 @@
 package application.controller;
 
 
+import java.io.IOException;
+
+import application.model.Escrim;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 
 public class SideMenuController {
+	
+	private Escrim escrim;
 
 	@FXML
     private Pane contentPane;
@@ -23,11 +31,22 @@ public class SideMenuController {
 
 	@FXML
     private Button statisticsButton;
+	
+	@FXML
+	private Button logoutButton;
+	
+	@FXML
+	private TextField deployed;
 
-
+	@FXML
+	private TextField notDeployed;
+	
     public void initialize() {
+    	this.escrim = Escrim.getInstance();
         setupButtonActions();
+        setupLogoutButtonAction();
         inventoryButton.fire();
+        handleEscrimState(escrim);
     }
 
     private void setupButtonActions() {
@@ -46,7 +65,37 @@ public class SideMenuController {
         }
     }
     
+    private void setupLogoutButtonAction() {
+    	logoutButton.setOnAction(event -> logout());
+    }
+	
+	private void logout() {
+		try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/view/login.fxml"));
+	        Scene scene = new Scene(fxmlLoader.load());
+	        
+	        Stage newStage = new Stage();
+	        newStage.setScene(scene);
 
+	        Stage oldStage = (Stage) logoutButton.getScene().getWindow();
+	        oldStage.close();
+            
+	        newStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void handleEscrimState(Escrim escrim) {
+		if (escrim.isState()) {
+			deployed.setVisible(true);
+			notDeployed.setVisible(false);
+		} else {
+			deployed.setVisible(false);
+			notDeployed.setVisible(true);
+		}
+	}
 
 }
 
