@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="538.0" prefWidth="761.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.DeployController">
 	<children>
 		<Text layoutX="24.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deploy">
 			<font>
@@ -13,5 +21,53 @@
 			</font>
 		</Text>
 		<Separator layoutY="58.0" prefHeight="0.0" prefWidth="761.0" />
+      <VBox layoutX="30.0" layoutY="83.0" prefHeight="431.0" prefWidth="702.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="674.0">
+                     <children>
+                        <Label prefWidth="90.0" text="Country : " />
+                        <TextField fx:id="country" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="674.0">
+                     <children>
+                        <Label prefWidth="90.0" text="Duration : " />
+                        <TextField fx:id="duration" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="674.0">
+                     <children>
+                        <Label prefWidth="90.0" text="Configuration : " />
+                        <ChoiceBox fx:id="configuration" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="674.0">
+                     <children>
+                        <Label prefWidth="90.0" text="Date : " />
+                        <DatePicker fx:id="date" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="146.0" prefWidth="702.0">
+               <children>
+                  <Label prefWidth="90.0" text="Description : " />
+                  <TextArea fx:id="description" prefHeight="146.0" prefWidth="434.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="83.0" prefWidth="702.0">
+               <children>
+                  <Button fx:id="removeButton" mnemonicParsing="false" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Remove" />
+                  <Button fx:id="deployButton" mnemonicParsing="false" styleClass="download-button" stylesheets="@../resources/css/application.css" text="Deploy" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
 	</children>
 </Pane>
