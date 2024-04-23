@@ -54,7 +54,7 @@ public class LoginController {
             }else if(role.equals("Logisticien")){
             	System.out.println("Implement Logisticien View");
 		    }else if(role.equals("Pharmacien")){
-		    	System.out.println("Implement Pharmacien View");
+            	loadNewFXML("ViewProfile3.fxml");
 		    }else {
                 showAlert(Alert.AlertType.ERROR, "Unknown Role", "You do not have permission to access this resource.");
             }

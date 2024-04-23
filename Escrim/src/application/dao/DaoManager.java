@@ -5,13 +5,14 @@ import application.model.util.Dim2D;
 import application.model.util.Dim3D;
 
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -832,6 +833,183 @@ private ModelInterface model = Escrim.getInstance();
         return 0;
     }
 
+    // Prescribe DAO
+
+    public List<Medicaments> getAllMedicamentsInStockDeploye() throws SQLException {
+        List<Medicaments> medicamentsList = new ArrayList<>();
+        String query = "SELECT m.id_med, m.produit, m.dci, m.dosage, m.dlu, m.quantity, m.medClass, m.parcel " +
+                       "FROM stockDeploye sd " +
+                       "JOIN parcel p ON sd.parcel = p.id " +
+                       "JOIN medication m ON p.id = m.parcel";
+        
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                int id = rs.getInt("id_med");
+                String nom = rs.getString("produit");
+                String dci = rs.getString("dci");
+                String dosage = rs.getString("dosage");
+                LocalDate dlu = LocalDate.parse(rs.getString("dlu"));
+                int quantity = rs.getInt("quantity");
+                String medClass = rs.getString("medClass");
+                int lot = rs.getInt("parcel");
+                
+                // Create Medicaments object and add to list
+                Medicaments medicament = new Medicaments(id, nom, dci, dosage, dlu, quantity, medClass, lot);
+                medicamentsList.add(medicament);
+            }
+        }
+        
+        return medicamentsList;
+    }
+     
+    
+ // Method to fetch distinct product names for non-expired medications
+    public List<String> getDistinctValidProductNames() throws SQLException {
+        List<String> productNames = new ArrayList<>();
+        String query = "SELECT DISTINCT m.produit, m.dlu FROM stockDeploye sd " +
+                       "JOIN parcel p ON sd.parcel = p.id " +
+                       "JOIN medication m ON p.id = m.parcel ";
+        
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                String dluString = rs.getString("dlu");
+                if (isNotExpired(dluString)) {
+                    String productName = rs.getString("produit");
+                    productNames.add(productName);
+                }
+            }
+        }
+        
+        return productNames;
+    }
+    
+    
+    // Method to get the number of expired medications
+    public int getExpiredMedsCount(){
+        String sql = "SELECT COUNT(*) AS valid_count FROM stockDeploye sd " +
+                       "JOIN parcel p ON sd.parcel = p.id " +
+                       "JOIN medication m ON p.id = m.parcel " +
+                       "WHERE m.dlu <= DATE('now')";
+        try (Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+               
+               if (rs.next()) {
+                   return rs.getInt("valid_count");
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+           
+           // Return 0 if no data is found or an exception occurs
+           return 0;
+    }
+
+    // Method to get the number of valid medications
+    public int getValidMedsCount() {
+        String sql = "SELECT COUNT(*) AS valid_count FROM stockDeploye sd " +
+                       "JOIN parcel p ON sd.parcel = p.id " +
+                       "JOIN medication m ON p.id = m.parcel " +
+                       "WHERE m.dlu > DATE('now')";
+        
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            
+            if (rs.next()) {
+                return rs.getInt("valid_count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        // Return 0 if no data is found or an exception occurs
+        return 0;
+    }
+
+
+
+    // Check if the medication is not expired
+    private boolean isNotExpired(String dluString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        try {
+            Date dluDate = dateFormat.parse(dluString);
+            Date now = new Date();
+            return dluDate.after(now);
+        } catch (ParseException e) {
+            // Handle parsing exception
+            e.printStackTrace();
+            return false;
+        }
+    }    
+    
+    public void addPrescription(int patientId, String medName, String prescDate, String comment) throws SQLException {
+        // Query to retrieve the medId based on the medicine name 
+        String medIdQuery = "SELECT id_med FROM medication WHERE produit = ? LIMIT 1";
+        String insertQuery = "INSERT INTO prescribe (patientId, medId, prescDate, comment) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement medIdPs = connection.prepareStatement(medIdQuery)) {
+            // Set the medicine name parameter 
+            medIdPs.setString(1, medName);
+
+            try (ResultSet rs = medIdPs.executeQuery()) {
+                if (rs.next()) {
+                    // Retrieve the medId 
+                    int medId = rs.getInt("id_med");
+
+                    // Now insert the prescription 
+                    try (PreparedStatement insertPs = connection.prepareStatement(insertQuery)) {
+                        insertPs.setInt(1, patientId);
+                        insertPs.setInt(2, medId);
+                        insertPs.setString(3, prescDate);
+                        insertPs.setString(4, comment);
+
+                        insertPs.executeUpdate();
+                    }
+                } else {
+                    // Handle case where medicine name does not exist 
+                    System.out.println("Medicine not found.");
+                }
+            }
+        }
+    }
+    
+    public void decrementQuantityOfNearExpiry(String medicineName, int quantityToDecrement) throws SQLException {
+        String query = "UPDATE medication SET quantity = quantity - ? WHERE id_med IN (SELECT id_med FROM medication WHERE produit = ? ORDER BY dlu ASC LIMIT 1)";
+        
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, quantityToDecrement);
+            ps.setString(2, medicineName);
+            
+            ps.executeUpdate();
+        }
+    }
+    
+
+    public List<Prescribe> getAllPrescriptions() throws SQLException {
+        List<Prescribe> prescriptions = new ArrayList<>();
+        String query = "SELECT * FROM prescribe";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Prescribe prescribe = new Prescribe();
+                prescribe.setId(rs.getInt("id"));
+                prescribe.setPatientId(rs.getInt("patientId"));
+                prescribe.setMedId(rs.getInt("medId"));
+                // Use LocalDate.parse to parse the date string retrieved from the database 
+                prescribe.setPrescDate(LocalDate.parse(rs.getString("prescDate")));
+                prescribe.setComment(rs.getString("comment"));
+
+                prescriptions.add(prescribe);
+            }
+        }
+
+        return prescriptions;
+    }    
 
 
 }
