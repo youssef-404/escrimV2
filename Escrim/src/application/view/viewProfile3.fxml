@@ -39,7 +39,7 @@
 									<graphic>
 										<ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
 											<image>
-												<Image url="@../resources/images/plane.png" />
+												<Image url="@../resources/images/drugs.png" />
 											</image>
 										</ImageView>
 									</graphic>
@@ -51,7 +51,7 @@
 									<graphic>
 										<ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
 											<image>
-												<Image url="@../resources/images/gear.png" />
+												<Image url="@../resources/images/syringe.png" />
 											</image>
 										</ImageView>
 									</graphic>
@@ -63,7 +63,7 @@
                            <graphic>
                               <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../resources/images/gear.png" />
+                                    <Image url="@../resources/images/prescription.png" />
                                  </image>
                               </ImageView>
                            </graphic>
