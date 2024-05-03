@@ -331,6 +331,7 @@ private ModelInterface model = Escrim.getInstance();
     
     //Config DAO
     
+    // Retrieves all configuration records from the database.
     public List<Configuration> getAllConfigurations() {
         List<Configuration> configurations = new ArrayList<>();
         String sql = "SELECT * FROM configuration";
@@ -355,6 +356,8 @@ private ModelInterface model = Escrim.getInstance();
         return configurations;
     }
     
+    
+    // Fetches all planes associated with a given configuration ID.
     private List<Plane> fetchPlanesForConfiguration(int configurationId) {
         List<Plane> planes = new ArrayList<>();
         String sql = "SELECT aircraft.* FROM aircraft "
@@ -383,6 +386,8 @@ private ModelInterface model = Escrim.getInstance();
         return planes;
     }
     
+    
+    // Fetches all parcels associated with a specific configuration by configuration ID.
     private List<Parcel> fetchColisForConfiguration(int configId){
     	List<Parcel> Allparcels = getAllParcels();
     	List<Parcel> configParcels = new ArrayList<>();
@@ -411,6 +416,8 @@ private ModelInterface model = Escrim.getInstance();
     	
     }
     
+    
+    // Parses a string to create a 2D dimension object.
     private Dim2D parseDim2D(String dimension) {
         String[] parts = dimension.split("x");
         if (parts.length == 2) {
@@ -426,6 +433,8 @@ private ModelInterface model = Escrim.getInstance();
         return null; 
     }
 
+    
+    // Parses a string to create a 3D dimension object.
     private Dim3D parseDim3D(String dimension) {
         String[] parts = dimension.split("x");
         if (parts.length == 3) {
@@ -441,6 +450,8 @@ private ModelInterface model = Escrim.getInstance();
         return null; 
     }
     
+    
+    // Adds a new configuration to the database along with associated parcels and planes.
     public void addConfiguration(Configuration config, List<Parcel> selectedParcels, List<Plane> selectedPlanes) throws SQLException {
         String sqlConfig = "INSERT INTO configuration (name, disaster) VALUES (?, ?)";
 
@@ -473,6 +484,8 @@ private ModelInterface model = Escrim.getInstance();
         }
     }
 
+    
+    // Associates a plane with a configuration by inserting a record in the configuration_aircraft join table.
     public void associatePlaneWithConfiguration(int configurationId, int planeId) throws SQLException {
         String sql = "INSERT INTO configuration_aircraft (configurationId, aircraftId) VALUES (?, ?)";
 
@@ -484,6 +497,7 @@ private ModelInterface model = Escrim.getInstance();
     }
 
     
+    // Associates multiple parcels with a configuration by inserting records in the configuration_parcel join table.
     public void associateParcelsWithConfiguration(int configurationId, List<Parcel> selectedParcels) throws SQLException {
         String sql = "INSERT INTO configuration_parcel (configurationId, parcelId) VALUES (?, ?)";
         
@@ -497,7 +511,7 @@ private ModelInterface model = Escrim.getInstance();
     }
 
 
-    
+    // Retrieves all parcels from the parcel table in the database.
     public List<Parcel> getAllParcels() {
         List<Parcel> parcels = new ArrayList<>();
         String sql = "SELECT * FROM parcel";
@@ -525,6 +539,7 @@ private ModelInterface model = Escrim.getInstance();
         return parcels;
     }
     
+    // Retrieves all aircraft from the aircraft table in the database.
     public List<Plane> getAllAircraft() {
         List<Plane> aircraft = new ArrayList<>();
         String sql = "SELECT * FROM aircraft";
@@ -547,6 +562,8 @@ private ModelInterface model = Escrim.getInstance();
         return aircraft;
     }
 
+    
+    // Updates an existing configuration in the database, including associated parcels and planes.
     public void updateConfiguration(Configuration config, List<Parcel> selectedParcels, List<Plane> selectedPlanes) throws SQLException {
         String sqlConfig = "UPDATE configuration SET name = ?, disaster = ? WHERE id = ?";
 
@@ -569,6 +586,8 @@ private ModelInterface model = Escrim.getInstance();
         } 
     }
 
+    
+    // Updates the associated parcels for a given configuration. First clears existing associations, then re-adds them.
     private void updateParcelsForConfiguration(int configId, List<Parcel> parcels) throws SQLException {
         String sqlDelete = "DELETE FROM configuration_parcel WHERE configurationId = ?";
         try (PreparedStatement pstmtDelete = connection.prepareStatement(sqlDelete)) {
@@ -585,7 +604,9 @@ private ModelInterface model = Escrim.getInstance();
             }
         }
     }
-
+    
+    
+    // Updates the associated planes for a given configuration. First clears existing associations, then re-adds them.
     private void updatePlanesForConfiguration(int configId, List<Plane> planes) throws SQLException {
         String sqlDelete = "DELETE FROM configuration_aircraft WHERE configurationId = ?";
         try (PreparedStatement pstmtDelete = connection.prepareStatement(sqlDelete)) {
@@ -604,7 +625,7 @@ private ModelInterface model = Escrim.getInstance();
     }
 
     
-    
+    // Deletes a configuration from the database, including associated parcels and planes.
     public void deleteConfiguration(int configId) throws SQLException {
 
     	deleteParcelsForConfiguration(configId);
@@ -623,7 +644,7 @@ private ModelInterface model = Escrim.getInstance();
         } 
     }
     
-    
+    // Deletes all parcel associations for a specific configuration.
     private void deleteParcelsForConfiguration(int configId) throws SQLException {
         String sqlDeleteParcels = "DELETE FROM configuration_parcel WHERE configurationId = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sqlDeleteParcels)) {
@@ -632,6 +653,8 @@ private ModelInterface model = Escrim.getInstance();
         }
     }
 
+    
+    // Deletes all plane associations for a specific configuration.
     private void deletePlanesForConfiguration(int configId) throws SQLException {
         String sqlDeletePlanes = "DELETE FROM configuration_aircraft WHERE configurationId = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sqlDeletePlanes)) {
