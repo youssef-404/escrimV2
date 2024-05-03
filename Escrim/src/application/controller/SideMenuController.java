@@ -42,15 +42,15 @@ public class SideMenuController {
 	private TextField notDeployed;
 	
     public void initialize() {
-    	this.escrim = Escrim.getInstance();
-        setupButtonActions();
+    	this.escrim = Escrim.getInstance();  // Singleton instance of the Escrim
+        setupButtonActions();  // Setup the actions for menu buttons.
         setupLogoutButtonAction();
-        inventoryButton.fire();
-//        handleEscrimState(escrim);
-        deployed.visibleProperty().bind(escrim.State());
-        notDeployed.visibleProperty().bind(escrim.State().not());
+        inventoryButton.fire();  // Automatically triggers the inventory button to load the default view.
+        deployed.visibleProperty().bind(escrim.State());  // Binds visibility of the deployed TextField to the Escrim state.
+        notDeployed.visibleProperty().bind(escrim.State().not());  // Binds visibility of the notDeployed TextField to the inverse of the Escrim state.
     }
 
+    // Configures the action events for each navigation button.
     private void setupButtonActions() {
         inventoryButton.setOnAction(event -> switchPane("/application/view/inventories.fxml"));
         deployButton.setOnAction(event -> switchPane("/application/view/deploy.fxml"));
@@ -58,6 +58,7 @@ public class SideMenuController {
         statisticsButton.setOnAction(event -> switchPane("/application/view/statistics.fxml"));
     }
 
+    // Loads and switches the content of the main panel to the specified FXML view.
     private void switchPane(String fxmlFile) {
         try {
             Node pane = FXMLLoader.load(getClass().getResource(fxmlFile));
@@ -67,10 +68,12 @@ public class SideMenuController {
         }
     }
     
+    // Sets up the action for the logout button to call the logout method.
     private void setupLogoutButtonAction() {
     	logoutButton.setOnAction(event -> logout());
     }
 	
+    // Handles user logout, switching from the current scene to the login scene.
 	private void logout() {
 		try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/application/view/login.fxml"));
@@ -88,16 +91,6 @@ public class SideMenuController {
             e.printStackTrace();
         }
 	}
-	
-//	private void handleEscrimState(Escrim escrim) {
-//		if (escrim.isState()) {
-//			deployed.setVisible(true);
-//			notDeployed.setVisible(false);
-//		} else {
-//			deployed.setVisible(false);
-//			notDeployed.setVisible(true);
-//		}
-//	}
 	
 	
 
